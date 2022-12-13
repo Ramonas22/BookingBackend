@@ -1,4 +1,6 @@
 package code.Academy.BookingApp.role.dto
 
-class RolesDto {
-}
+data class RolesDto(
+    val id :Long,
+    val roles: String?,
+)
