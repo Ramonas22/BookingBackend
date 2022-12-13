@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Collection;
 
+@Table(name = "user_auth")
 @Entity
 public class UserAuth {
     @Id
