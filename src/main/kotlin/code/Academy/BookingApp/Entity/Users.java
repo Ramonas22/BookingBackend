@@ -1,6 +1,7 @@
 package code.Academy.BookingApp.Entity;
 
 import code.Academy.BookingApp.role.controller.RolesController;
+import code.Academy.BookingApp.role.dto.RolesDto;
 import code.Academy.BookingApp.role.entity.Roles;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,17 @@ public class Users {
     public void printMe(){
         System.out.println("I am here");
         controller.getResult();
+        controller.test();
+        RolesController cmt = new RolesController();
+        cmt.test();
     }
+
+    public void metodas(){
+        controller.getResult();
+        RolesDto dto = new RolesDto();
+
+    }
+
+
 
 }
