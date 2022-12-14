@@ -1,6 +1,7 @@
 package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.user.role.Role;
+import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -22,6 +23,11 @@ public class UserAuth {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seller_id")
+    private SellerPage sellerpage;
 
     public UserAuth() {
     }
@@ -80,5 +86,13 @@ public class UserAuth {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public SellerPage getSellerpage() {
+        return sellerpage;
+    }
+
+    public void setSellerpage(SellerPage sellerpage) {
+        this.sellerpage = sellerpage;
     }
 }
