@@ -1,4 +1,4 @@
-package code.Academy.BookingApp
+package code.academy.bookingapp
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

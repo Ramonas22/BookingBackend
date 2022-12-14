@@ -1,4 +1,4 @@
-package code.Academy.BookingApp
+package code.Academy.bookingapp
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
