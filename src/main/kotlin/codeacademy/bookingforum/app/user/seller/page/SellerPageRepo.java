@@ -1,4 +1,6 @@
 package codeacademy.bookingforum.app.user.seller.page;
 
-public interface SellerPageRepo {
+import org.springframework.data.repository.CrudRepository;
+
+public interface SellerPageRepo extends CrudRepository<SellerPage, Long> {
 }
