@@ -2,6 +2,7 @@ package codeacademy.bookingforum.app.configuration;
 
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
+import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import jakarta.transaction.Transactional;
@@ -11,7 +12,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class SetupDataLoader implements
@@ -42,14 +47,7 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN");
         createRoleIfNotFound("ROLE_USER");
 
-        Role adminRole = roleRepository.findByDisplayName("ROLE_ADMIN");
-        UserAuth user = new UserAuth();
-        user.setUsername("Admin");
-        user.setPassword(passwordEncoder.encode("h5H5n7DSV$aT4D^S^9Wq"));
-        user.setEmail("admin@janas.lt");
-        user.setRoles(Collections.singletonList(adminRole));
-        user.setEnabled(true);
-        userRepository.save(user);
+        createUserIfNotFound("Admin","admin@irenteye.com","h5H5n7DSV$aT4D^S^9Wq");
 
         alreadySetup = true;
     }
@@ -63,5 +61,21 @@ public class SetupDataLoader implements
             roleRepository.save(role);
         }
         return role;
+    }
+    @Transactional
+    UserAuth createUserIfNotFound(String name, String email, String password) {
+        UserAuth user = userRepository.findByDisplayName(name);
+        if (user == null) {
+            user = new UserAuth();
+            user.setUsername(name);
+            user.setGender(Gender.UNDEFINED);
+            user.setEmail(email);
+            user.setEnabled(true);
+            user.setPassword(passwordEncoder.encode(password));
+            user.setRoles(Collections.singletonList(roleRepository.findByDisplayName("ROLE_ADMIN")));
+
+            userRepository.save(user);
+        }
+        return user;
     }
 }

@@ -1,5 +1,6 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
@@ -15,8 +16,10 @@ public class UserAuth {
     private String username;
     private String email;
     private String password;
+    private Gender gender;
     private boolean enabled;
     private boolean tokenExpired;
+    private String biography;
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -30,6 +33,14 @@ public class UserAuth {
     private SellerPage sellerpage;
 
     public UserAuth() {
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public Long getId() {
