@@ -23,27 +23,17 @@ public class UserAuth {
     private Gender gender;
     private boolean enabled;
     private boolean tokenExpired;
-<<<<<<< HEAD
-
-    private Gender gender;
-
-
-=======
     private String biography;
->>>>>>> c13268606632a393bd3b6ab15b0d50595d845543
     @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-<<<<<<< HEAD
 
 
     @OneToOne(cascade = CascadeType.ALL)
-=======
     @ManyToOne(cascade = CascadeType.ALL)
->>>>>>> c13268606632a393bd3b6ab15b0d50595d845543
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
     @ManyToMany(mappedBy = "userRating")
@@ -56,24 +46,23 @@ public class UserAuth {
     private List<Photo> photoUsers;
 
     @ManyToMany(mappedBy = "userRating")
-    private List<SellerRating> sellerRait;
-
-    @ManyToMany(mappedBy = "orderUser")
-    private List<Order> userOrder;
-
-    @ManyToMany(mappedBy = "userPhotos")
-    private List<Photo> photoUsers;
-
+    private List<SellerRating> sellerRating;
 
     public UserAuth() {
     }
 
-<<<<<<< HEAD
+    public List<SellerRating> getSellerRating() {
+        return sellerRating;
+    }
+
+    public void setSellerRating(List<SellerRating> sellerRating) {
+        this.sellerRating = sellerRating;
+    }
+
     public UserAuth(Long id) {
         this.id = id;
     }
 
-=======
     public List<SellerRating> getSellerRait() {
         return sellerRait;
     }
@@ -105,7 +94,6 @@ public class UserAuth {
     public void setBiography(String biography) {
         this.biography = biography;
     }
->>>>>>> c13268606632a393bd3b6ab15b0d50595d845543
 
     public Gender getGender() {
         return gender;
@@ -179,27 +167,5 @@ public class UserAuth {
         this.sellerpage = sellerpage;
     }
 
-    public List<SellerRating> getSellerRait() {
-        return sellerRait;
-    }
 
-    public void setSellerRait(List<SellerRating> sellerRait) {
-        this.sellerRait = sellerRait;
-    }
-
-    public List<Order> getUserOrder() {
-        return userOrder;
-    }
-
-    public void setUserOrder(List<Order> userOrder) {
-        this.userOrder = userOrder;
-    }
-
-    public List<Photo> getPhotoUsers() {
-        return photoUsers;
-    }
-
-    public void setPhotoUsers(List<Photo> photoUsers) {
-        this.photoUsers = photoUsers;
-    }
 }
