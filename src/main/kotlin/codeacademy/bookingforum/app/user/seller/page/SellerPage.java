@@ -1,12 +1,14 @@
 package codeacademy.bookingforum.app.user.seller.page;
 
+import codeacademy.bookingforum.app.order.Order;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
+import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "user_auth")
+@Table(name = "seller_page")
 @Entity
 public class SellerPage {
 
@@ -27,10 +29,19 @@ public class SellerPage {
     @OneToOne(mappedBy = "sellerpage")
     private UserAuth userauth;
 
+    @ManyToMany(mappedBy = "ratingSeller")
+    private List<SellerRating> sellerRate;
+
+    @ManyToMany(mappedBy = "orderSeller")
+    private List<Order> sellerOrder;
+
     public SellerPage() {
 
     }
 
+    public SellerPage(Long id) {
+        this.id = id;
+    }
 
     public List<Date> getUnavailableDate() {
         return unavailableDate;
@@ -86,5 +97,21 @@ public class SellerPage {
 
     public void setUserauth(UserAuth userauth) {
         this.userauth = userauth;
+    }
+
+    public List<SellerRating> getSellerRate() {
+        return sellerRate;
+    }
+
+    public void setSellerRate(List<SellerRating> sellerRate) {
+        this.sellerRate = sellerRate;
+    }
+
+    public List<Order> getSellerOrder() {
+        return sellerOrder;
+    }
+
+    public void setSellerOrder(List<Order> sellerOrder) {
+        this.sellerOrder = sellerOrder;
     }
 }
