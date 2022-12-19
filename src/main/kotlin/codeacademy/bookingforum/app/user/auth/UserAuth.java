@@ -1,11 +1,15 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.order.Order;
+import codeacademy.bookingforum.app.photo.Photo;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
+import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Table(name = "user_auth")
 @Entity
@@ -26,13 +30,51 @@ public class UserAuth {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
+    @ManyToMany(mappedBy = "userRating")
+    private List<SellerRating> sellerRait;
+
+    @ManyToMany(mappedBy = "orderUser")
+    private List<Order> userOrder;
+
+    @ManyToMany(mappedBy = "userPhotos")
+    private List<Photo> photoUsers;
 
     public UserAuth() {
+    }
+
+    public List<SellerRating> getSellerRait() {
+        return sellerRait;
+    }
+
+    public void setSellerRait(List<SellerRating> sellerRait) {
+        this.sellerRait = sellerRait;
+    }
+
+    public List<Order> getUserOrder() {
+        return userOrder;
+    }
+
+    public void setUserOrder(List<Order> userOrder) {
+        this.userOrder = userOrder;
+    }
+
+    public List<Photo> getPhotoUsers() {
+        return photoUsers;
+    }
+
+    public void setPhotoUsers(List<Photo> photoUsers) {
+        this.photoUsers = photoUsers;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     public Gender getGender() {
