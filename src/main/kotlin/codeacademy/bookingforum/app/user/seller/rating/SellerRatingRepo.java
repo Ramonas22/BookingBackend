@@ -1,4 +1,6 @@
 package codeacademy.bookingforum.app.user.seller.rating;
 
-public interface SellerRatingRepo {
+import org.springframework.data.repository.CrudRepository;
+
+public interface SellerRatingRepo extends CrudRepository<SellerRating, Long> {
 }
