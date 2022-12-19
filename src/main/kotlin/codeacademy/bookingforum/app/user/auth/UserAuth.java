@@ -31,7 +31,6 @@ public class UserAuth {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
