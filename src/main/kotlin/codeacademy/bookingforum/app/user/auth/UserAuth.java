@@ -2,6 +2,8 @@ package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.order.Order;
 import codeacademy.bookingforum.app.photo.Photo;
+import codeacademy.bookingforum.app.post.Post;
+import codeacademy.bookingforum.app.topic.Topic;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
@@ -36,7 +38,7 @@ public class UserAuth {
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
     @ManyToMany(mappedBy = "userRating")
-    private List<SellerRating> sellerRait;
+    private List<SellerRating> sellerRatings;
 
     @ManyToMany(mappedBy = "orderUser")
     private List<Order> userOrder;
@@ -46,6 +48,14 @@ public class UserAuth {
 
     @ManyToMany(mappedBy = "userRating")
     private List<SellerRating> sellerRating;
+
+    @OneToMany
+    @JoinColumn(name = "post_id")
+    private List<Post> posts;
+
+    @OneToMany
+    @JoinColumn(name = "topic_id")
+    private List<Topic> topics;
 
     public UserAuth() {
     }
@@ -62,12 +72,12 @@ public class UserAuth {
         this.id = id;
     }
 
-    public List<SellerRating> getSellerRait() {
-        return sellerRait;
+    public List<SellerRating> getSellerRatings() {
+        return sellerRatings;
     }
 
-    public void setSellerRait(List<SellerRating> sellerRait) {
-        this.sellerRait = sellerRait;
+    public void setSellerRatings(List<SellerRating> sellerRatings) {
+        this.sellerRatings = sellerRatings;
     }
 
     public List<Order> getUserOrder() {
@@ -166,5 +176,19 @@ public class UserAuth {
         this.sellerpage = sellerpage;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
 
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
 }

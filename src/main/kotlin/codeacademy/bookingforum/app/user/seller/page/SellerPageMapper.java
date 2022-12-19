@@ -48,7 +48,7 @@ public class SellerPageMapper {
         List<SellerPageDto> dtos = new ArrayList<>();
 
         for(SellerPage entity : ent){
-            dtos.add((SellerPageDto) toDto(ent));
+            dtos.add((SellerPageDto) toDto(entity));
         }
         return dtos;
     }
