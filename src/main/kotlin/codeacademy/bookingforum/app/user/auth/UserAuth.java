@@ -35,16 +35,13 @@ public class UserAuth {
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
     @ManyToMany(mappedBy = "userRating")
-    private List<SellerRating> sellerRait;
+    private List<SellerRating> sellerRating;
 
     @ManyToMany(mappedBy = "orderUser")
     private List<Order> userOrder;
 
     @ManyToMany(mappedBy = "userPhotos")
     private List<Photo> photoUsers;
-
-    @ManyToMany(mappedBy = "userRating")
-    private List<SellerRating> sellerRating;
 
     public UserAuth() {
     }
@@ -59,14 +56,6 @@ public class UserAuth {
 
     public UserAuth(Long id) {
         this.id = id;
-    }
-
-    public List<SellerRating> getSellerRait() {
-        return sellerRait;
-    }
-
-    public void setSellerRait(List<SellerRating> sellerRait) {
-        this.sellerRait = sellerRait;
     }
 
     public List<Order> getUserOrder() {
