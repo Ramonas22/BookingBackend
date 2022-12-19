@@ -2,6 +2,7 @@ package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.order.Order;
 import codeacademy.bookingforum.app.photo.Photo;
+import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
@@ -21,6 +22,10 @@ public class UserAuth {
     private String password;
     private boolean enabled;
     private boolean tokenExpired;
+
+    private Gender gender;
+
+
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -48,6 +53,15 @@ public class UserAuth {
 
     public UserAuth(Long id) {
         this.id = id;
+    }
+
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public Long getId() {
