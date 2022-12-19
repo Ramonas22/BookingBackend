@@ -33,7 +33,6 @@ public class UserAuth {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seller_id")
     private SellerPage sellerpage;
     @ManyToMany(mappedBy = "userRating")
