@@ -1,13 +1,13 @@
 package codeacademy.bookingforum.app.comment
 
-import java.util.*
+import java.time.LocalDateTime
 
 data class CommentDto(
     val id : Long? = null,
-    val date_commented : Date? = null,
+    val dateCommented : LocalDateTime? = null,
     val content : String? = "",
-    val post_id : Int? = null,
-    val user_id : Int? = null,
+    val postId : Int? = null,
+    val userId : Int? = null,
     val likes : Int? = 0,
     val dislikes : Int? = 0,
 )

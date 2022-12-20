@@ -1,16 +1,17 @@
 package codeacademy.bookingforum.app.comment
 
 import jakarta.persistence.*
-import java.util.*
+import java.time.LocalDateTime
 
 @Entity
+@Table(name = "comment")
 data class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
     @Column(name = "date_commented")
-    val date_commented: Date? = null,
+    val dateCommented: LocalDateTime? = null,
 
     @Column(name = "content")
     val content: String? = "",
@@ -18,12 +19,12 @@ data class Comment(
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     @Column(name = "post_id")
-    val post_id: Int? = null,
+    val postId: Int? = null,
 
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @Column(name = "user_id")
-    val user_id: Int? = null,
+    val userId: Int? = null,
 
     @Column(name = "likes")
     val likes: Int? = 0,

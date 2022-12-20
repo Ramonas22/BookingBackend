@@ -15,9 +15,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "details")
     private String details;
-    @Column(name = "booked_date")
+
     private Date bookedDate;
 
     @ManyToMany
@@ -31,8 +30,7 @@ public class Order {
     @JoinTable(
             name = "seller_order",
             joinColumns = @JoinColumn(name = "seller_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<SellerPage> orderSeller;
 
     public Order() {}

@@ -8,10 +8,10 @@ class CommentMapper {
     fun fromDtoToEntity(dto: CommentDto?): Comment {
         return Comment(
             id = dto?.id,
-            date_commented = dto?.date_commented,
+            dateCommented = dto?.dateCommented,
             content = dto?.content,
-            post_id = dto?.post_id,
-            user_id = dto?.user_id,
+            postId = dto?.postId,
+            userId = dto?.userId,
             likes = dto?.likes,
             dislikes = dto?.dislikes
         )
@@ -20,10 +20,10 @@ class CommentMapper {
     fun fromEntityToDto(entity: Comment?): CommentDto {
         return CommentDto(
             id = entity?.id,
-            date_commented = entity?.date_commented,
+            dateCommented = entity?.dateCommented,
             content = entity?.content,
-            post_id = entity?.post_id,
-            user_id = entity?.user_id,
+            postId = entity?.postId,
+            userId = entity?.userId,
             likes = entity?.likes,
             dislikes = entity?.dislikes,
         )
@@ -34,9 +34,7 @@ class CommentMapper {
             val listOfCommentDto : MutableList<CommentDto> = emptyList<CommentDto>().toMutableList()
             if(entityList?.isEmpty() == false){
                 entityList.forEach {
-                    listOfCommentDto.add(
-                        fromEntityToDto(it)
-                    )
+                    listOfCommentDto.add(fromEntityToDto(it))
                   }
             }
             listOfCommentDto
