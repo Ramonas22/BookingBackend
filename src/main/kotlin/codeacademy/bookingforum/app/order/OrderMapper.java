@@ -45,7 +45,8 @@ public class OrderMapper {
 
         List<UserAuth> userAuthList = new ArrayList<>();
         for(Long id: dto.getOrderUser_id()){
-            userAuthList.add(new UserAuth(id));
+            UserAuth user = new UserAuth();
+            user.setId(id);
         }
         entity.setOrderUser(userAuthList);
 
