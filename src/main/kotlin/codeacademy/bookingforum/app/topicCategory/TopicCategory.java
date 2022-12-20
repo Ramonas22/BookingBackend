@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Table(name = "topicCategory")
 @Entity
+@Table(name = "topic_category")
 public class TopicCategory {
 
     @Id
@@ -25,6 +25,14 @@ public class TopicCategory {
     private List<Topic> topics;
 
     public TopicCategory(Long topicCategoryId) {
+    }
+
+    public TopicCategory(Long id, String title, String description, List<String> role, List<Topic> topics) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.role = role;
+        this.topics = topics;
     }
 
     public Long getId() {

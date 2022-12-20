@@ -30,8 +30,7 @@ public class Order {
     @JoinTable(
             name = "seller_order",
             joinColumns = @JoinColumn(name = "seller_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<SellerPage> orderSeller;
 
     public Order() {}
