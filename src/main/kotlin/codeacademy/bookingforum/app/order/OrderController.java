@@ -12,8 +12,6 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @Autowired
-    OrderMapper orderMapper;
 
     @PostMapping
     public OrderDto addOrder(@RequestBody OrderDto orderDto){
@@ -33,7 +31,7 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public OrderDto updateOrder(@RequestBody OrderDto orderdto, @PathVariable(name = "id") Long id){
         return orderService.updateOrder(orderdto);
     }

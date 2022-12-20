@@ -15,12 +15,16 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "image_Url")
     private String imageUrl;
 
+    @Column(name = "tags")
     private List<String> tags;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "type")
     private PhotoType type;
 
 
@@ -44,6 +48,8 @@ public class Photo {
     public Photo(Long id) {
         this.id = id;
     }
+
+
 
     public Long getId() {
         return id;
@@ -81,8 +87,8 @@ public class Photo {
         return type;
     }
 
-    public void setType(PhotoType type) {
-        this.type = type;
+    public void setType(String type) {
+        this.type = PhotoType.valueOf(type);
     }
 
     public List<UserAuth> getUserPhotos() {
@@ -97,7 +103,7 @@ public class Photo {
         return postPhotos;
     }
 
-    public void setPostPhotos(List<Post> postPhotos) {
+    public void setPostPhotos(List<Photo> photos) {
         this.postPhotos = postPhotos;
     }
 }

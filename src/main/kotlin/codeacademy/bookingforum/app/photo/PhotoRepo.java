@@ -1,4 +1,6 @@
 package codeacademy.bookingforum.app.photo;
 
-public interface PhotoRepo {
+import org.springframework.data.repository.CrudRepository;
+
+public interface PhotoRepo extends CrudRepository<Photo, Long> {
 }
