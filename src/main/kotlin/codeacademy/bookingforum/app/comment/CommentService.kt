@@ -10,37 +10,37 @@ class CommentService {
     private lateinit var mapper: CommentMapper
 
     @Autowired
-    private lateinit var repo: CommentRepo
+    private lateinit var repository: CommentRepository
 
     fun getAllComments(): List<CommentDto>? {
-        return mapper.fromEntityListToDtoList( repo.findAll().toList() )
+        return mapper.fromEntityListToDtoList( repository.findAll().toList() )
     }
 
     fun getCommentById(id: Long): CommentDto? {
-        return mapper.fromEntityToDto( repo.findByIdOrNull(id))
+        return mapper.fromEntityToDto( repository.findByIdOrNull(id))
     }
 
     fun postComment(commentDto: CommentDto?){
-        mapper.fromDtoToEntity(commentDto).let { repo.save(it) }
+        mapper.fromDtoToEntity(commentDto).let { repository.save(it) }
     }
 
     fun updateComment(id: Long, commentDto: CommentDto?) {
         mapper.fromDtoToEntity(
             CommentDto(
                 id = id,
-                date_commented = commentDto?.date_commented,
+                dateCommented = commentDto?.dateCommented,
                 content = commentDto?.content,
-                post_id = commentDto?.post_id,
-                user_id = commentDto?.user_id,
+                postId = commentDto?.postId,
+                userId = commentDto?.userId,
                 likes = commentDto?.likes,
                 dislikes = commentDto?.dislikes,
             )
-        ).let { repo.save(it) }
+        ).let { repository.save(it) }
     }
 
     fun deleteComment(id: Long): String {
-        return if(repo.existsById(id)){
-            repo.deleteById(id)
+        return if(repository.existsById(id)){
+            repository.deleteById(id)
             "Deleted user with id $id"
         }else{
             "Id not found"
