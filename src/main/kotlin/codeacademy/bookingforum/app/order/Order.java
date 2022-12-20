@@ -15,8 +15,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "details")
     private String details;
-
+    @Column(name = "booked_date")
     private Date bookedDate;
 
     @ManyToMany

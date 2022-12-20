@@ -1,7 +1,6 @@
 package codeacademy.bookingforum.app.post;
 
-import codeacademy.bookingforum.app.photo.Photo;
-import codeacademy.bookingforum.app.user.auth.UserAuth;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

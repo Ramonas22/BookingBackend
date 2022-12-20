@@ -2,8 +2,6 @@ package codeacademy.bookingforum.app.order;
 
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
-import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
-import codeacademy.bookingforum.app.user.seller.rating.SellerRatingDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
