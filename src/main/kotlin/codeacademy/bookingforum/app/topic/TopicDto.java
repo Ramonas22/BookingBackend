@@ -1,29 +1,21 @@
 package codeacademy.bookingforum.app.topic;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class TopicDto {
 
     private Long id;
-
     private String title;
-
     private String description;
-
     private Integer postCount;
-
     private Integer replayCount;
-
     private Integer postLast;
-
     private Integer userLastPost;
-
-    private Long user_id;
-
+    private Long userId;
     private Long topicCategory_id;
 }

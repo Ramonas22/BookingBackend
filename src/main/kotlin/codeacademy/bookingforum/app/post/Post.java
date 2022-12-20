@@ -24,11 +24,9 @@ public class Post {
     @ManyToMany(mappedBy = "postPhotos")
     private List<Photo> photoPost;
 
-
     @ManyToOne
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private UserAuth user;
-
 
     public Post() {
     }

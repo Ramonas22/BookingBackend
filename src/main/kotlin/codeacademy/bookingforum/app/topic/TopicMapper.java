@@ -2,8 +2,6 @@ package codeacademy.bookingforum.app.topic;
 
 import codeacademy.bookingforum.app.topicCategory.TopicCategory;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
-import codeacademy.bookingforum.app.user.seller.page.SellerPage;
-import codeacademy.bookingforum.app.user.seller.page.SellerPageDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class TopicMapper {
         dto.setReplayCount(entity.getReplayCount());
         dto.setPostLast(entity.getPostLast());
         dto.setUserLastPost(entity.getUserLastPost());
-        dto.setUser_id(entity.getId());
+        dto.setUserId(entity.getId());
         dto.setTopicCategory_id(entity.getId());
 
         return dto;
@@ -32,6 +30,9 @@ public class TopicMapper {
         if(dto == null){
             return null;
         }
+        UserAuth user = new UserAuth();
+        user.setId(dto.getUserId());
+
         Topic entity = new Topic();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -40,7 +41,7 @@ public class TopicMapper {
         entity.setReplayCount(dto.getReplayCount());
         entity.setPostLast(dto.getPostLast());
         entity.setUserLastPost(dto.getUserLastPost());
-        entity.setUser(new UserAuth(dto.getUser_id()));
+        entity.setUser(user);
         entity.setTopicCategory(new TopicCategory(dto.getTopicCategory_id()));
 
         return entity;

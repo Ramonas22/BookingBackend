@@ -12,12 +12,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
+// Executes tasks when the program starts. Creates default Admin user and two default roles (ROLE_USER and ROLE_ADMIN)
 @Component
 public class SetupDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
@@ -64,7 +61,7 @@ public class SetupDataLoader implements
     }
     @Transactional
     UserAuth createUserIfNotFound(String name, String email, String password) {
-        UserAuth user = userRepository.findByDisplayName(name);
+        UserAuth user = userRepository.findByUsername(name);
         if (user == null) {
             user = new UserAuth();
             user.setUsername(name);
