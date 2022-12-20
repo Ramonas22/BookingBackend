@@ -1,7 +1,9 @@
 package codeacademy.bookingforum.app.user.auth;
 
-import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+@Service
 public class UserAuthMapper {
 
     // Used when logging in with existing user.
