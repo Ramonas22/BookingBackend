@@ -1,6 +1,5 @@
 package codeacademy.bookingforum.app.topicCategory
 
-import codeacademy.bookingforum.app.topic.Topic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -13,15 +12,15 @@ class TopicCategoryService {
     private lateinit var repository: TopicCategoryRepository
 
     fun getAllTopicCategories(): List<TopicCategoryDto?> {
-        return repository.findAll().map { mapper.fromEntityToDto(it) }
+        return repository.findAll().map { mapper.toDto(it) }
     }
 
     fun getAllTopicCategoryById(id: Long): TopicCategoryDto? {
-        return repository.findByIdOrNull(id).let { mapper.fromEntityToDto(it) }
+        return repository.findByIdOrNull(id).let { mapper.toDto(it) }
     }
 
     fun postTopicCategory(topicCategoryDto: TopicCategoryDto?) {
-        mapper.fromDtoToEntity(topicCategoryDto)?.let { repository.save(it) }
+        mapper.fromDto(topicCategoryDto)?.let { repository.save(it) }
     }
 
     fun updateTopicCategory(id: Long, topicCategoryDto: TopicCategoryDto?) {
@@ -29,9 +28,8 @@ class TopicCategoryService {
             id,
             topicCategoryDto?.title,
             topicCategoryDto?.description,
-            topicCategoryDto?.role,
-            topicCategoryDto?.topics?.map { Topic(it) }
-        ).let { repository.save(it) }
+            topicCategoryDto?.roles
+        )
     }
 
     fun deleteTopicCategory(id: Long): String {

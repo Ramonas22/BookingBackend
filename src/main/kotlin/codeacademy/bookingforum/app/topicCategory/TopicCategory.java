@@ -24,4 +24,15 @@ public class TopicCategory {
     private String description;
     @Column(name = "roles")
     private List<String> roles;
+
+    public TopicCategory(Long id) {
+        this.id = id;
+    }
+
+    public TopicCategory(Long id, String title, String description, List<String> roles) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.roles = roles;
+    }
 }
