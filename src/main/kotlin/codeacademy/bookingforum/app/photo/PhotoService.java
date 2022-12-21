@@ -24,6 +24,7 @@ public class PhotoService {
         return  photoMapper.toDto(photos);
     }
 
+
     public PhotoDto createPhoto(PhotoDto photoDto){
         Photo photo = photoMapper.fromDto(photoDto);
         photoRepo.save(photo);
@@ -39,6 +40,7 @@ public class PhotoService {
     public void deletePhoto(Long id){
         photoRepo.deleteById(id);
     }
+
 
 
 

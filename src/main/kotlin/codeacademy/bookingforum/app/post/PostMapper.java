@@ -38,13 +38,15 @@ public class PostMapper {
         for(Long photo_id: dto.getPhotoPost_id()){
             photos.add(new Photo(photo_id));
         }
+        UserAuth user = new UserAuth();
+        user.setId(dto.getUser_id());
         return new Post(
                 dto.getId(),
                 dto.getTitle(),
                 dto.getContent(),
                 dto.getDatePosted(),
-                photos,
-                new UserAuth(dto.getUser_id())
+                dto.getPhotoPost_id().stream().map(id -> new Photo(id)).toList(),
+                user
         );
     }
 

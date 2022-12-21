@@ -1,4 +1,6 @@
 package codeacademy.bookingforum.app.post;
 
-public interface PostRepo {
+import org.springframework.data.repository.CrudRepository;
+
+public interface PostRepo extends CrudRepository <Post, Long> {
 }
