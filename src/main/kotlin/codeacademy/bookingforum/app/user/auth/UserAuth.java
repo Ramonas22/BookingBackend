@@ -40,4 +40,8 @@ public class UserAuth {
     private boolean enabled;
     @Column(name = "join_date")
     private LocalDateTime joinDate;
+
+    public UserAuth(Long id) {
+        this.id = id;
+    }
 }

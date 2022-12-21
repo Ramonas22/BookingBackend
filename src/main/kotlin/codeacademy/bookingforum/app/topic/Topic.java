@@ -38,4 +38,16 @@ public class Topic {
     @ManyToOne
     @JoinColumn(name = "topic_category_id", insertable = false, updatable = false)
     private TopicCategory topicCategory;
+
+    public Topic(Long id, String title, String description, Integer postCount, Integer replayCount, Integer postLast, Integer userLastPost, UserAuth user, TopicCategory topicCategory) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.postCount = postCount;
+        this.replayCount = replayCount;
+        this.postLast = postLast;
+        this.userLastPost = userLastPost;
+        this.user = user;
+        this.topicCategory = topicCategory;
+    }
 }
