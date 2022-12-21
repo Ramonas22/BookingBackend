@@ -23,4 +23,12 @@ public class PostDto {
 
     private Long user_id;
 
+    public PostDto(Long id, String title, String content, Date datePosted, List<Long> photoPost_id, Long user_id) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.datePosted = datePosted;
+        this.photoPost_id = photoPost_id;
+        this.user_id = user_id;
+    }
 }

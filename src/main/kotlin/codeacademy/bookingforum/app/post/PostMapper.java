@@ -10,34 +10,27 @@ import java.util.List;
 @Service
 public class PostMapper {
 
-    public PostDto toDto(Post entity){
-        if(entity == null){
+    public PostDto toDto(Post entity) {
+        if (entity == null) {
             return null;
         }
-        PostDto dto = new PostDto();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setContent(entity.getContent());
-        dto.setDatePosted(entity.getDatePosted());
 
-        List<Long> post = new ArrayList<>();
-        for(Photo photo: entity.getPhotoPost()){
-            post.add(photo.getId());
-        }
-        dto.setPhotoPost_id(post);
-        dto.setUser_id(entity.getId());
+        return new PostDto(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getContent(),
+                entity.getDatePosted(),
+                entity.getPhotoPost().stream().map(photo -> photo.getId()).toList(),
+                entity.getUser().getId()
+                );
 
-        return dto;
     }
 
-    public Post fromDto(PostDto dto){
-        if(dto == null){
+    public Post fromDto(PostDto dto) {
+        if (dto == null) {
             return null;
         }
-        List<Photo> photos = new ArrayList<>();
-        for(Long photo_id: dto.getPhotoPost_id()){
-            photos.add(new Photo(photo_id));
-        }
+
         UserAuth user = new UserAuth();
         user.setId(dto.getUser_id());
         return new Post(
@@ -45,19 +38,19 @@ public class PostMapper {
                 dto.getTitle(),
                 dto.getContent(),
                 dto.getDatePosted(),
-                dto.getPhotoPost_id().stream().map(id -> new Photo(id)).toList(),
+                dto.getPhotoPost_id().stream().map(Photo::new).toList(),
                 user
         );
     }
 
-    public List<PostDto> toDtos(List<Post> list){
-        if( list == null){
+    public List<PostDto> toDtos(List<Post> list) {
+        if (list == null) {
             return null;
-        }else if (list.size() == 0){
+        } else if (list.size() == 0) {
             return new ArrayList<>();
-        }else{
+        } else {
             List<PostDto> posts = new ArrayList<>();
-            for(Post post: list){
+            for (Post post : list) {
                 posts.add(toDto(post));
             }
             return posts;
