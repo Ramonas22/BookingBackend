@@ -3,6 +3,7 @@ package codeacademy.bookingforum.app.post;
 import codeacademy.bookingforum.app.photo.Photo;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import jakarta.persistence.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,9 @@ public class Post {
     public Post() {
     }
 
+    public Post(@Nullable Long postId) {
+
+    }
 
 
     public Long getId() {

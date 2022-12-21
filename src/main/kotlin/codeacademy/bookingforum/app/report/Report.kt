@@ -1,5 +1,8 @@
 package codeacademy.bookingforum.app.report
 
+import codeacademy.bookingforum.app.comment.Comment
+import codeacademy.bookingforum.app.post.Post
+import codeacademy.bookingforum.app.user.auth.UserAuth
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -21,17 +24,14 @@ data class Report(
 
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
-    @Column(name = "comment_id")
-    val commentId: Long? = null,
+    val commentId: Comment? = null,
 
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @Column(name = "user_id")
-    val userID: Long? = null,
+    val userID: UserAuth? = null,
 
     @ManyToOne(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    @Column(name = "post_id")
-    val postId: Long? = null,
+    val postId: Post? = null,
 
 )

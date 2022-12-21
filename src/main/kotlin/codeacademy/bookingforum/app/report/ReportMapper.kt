@@ -1,5 +1,8 @@
 package codeacademy.bookingforum.app.report
 
+import codeacademy.bookingforum.app.comment.Comment
+import codeacademy.bookingforum.app.post.Post
+import codeacademy.bookingforum.app.user.auth.UserAuth
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,9 +14,9 @@ class ReportMapper {
             reason = dto?.reason,
             description = dto?.description,
             reportDate = dto?.reportDate,
-            commentId = dto?.commentId,
-            userID = dto?.userID,
-            postId = dto?.postId,
+            commentId = Comment(id = dto?.commentId),
+            userID = UserAuth(dto?.userID),
+            postId = Post(dto?.postId),
         )
     }
 
@@ -23,9 +26,9 @@ class ReportMapper {
             reason = entity?.reason,
             description = entity?.description,
             reportDate = entity?.reportDate,
-            commentId = entity?.commentId,
-            userID = entity?.userID,
-            postId = entity?.postId,
+            commentId = entity?.commentId?.id,
+            userID = entity?.userID?.id,
+            postId = entity?.postId?.id,
         )
     }
 

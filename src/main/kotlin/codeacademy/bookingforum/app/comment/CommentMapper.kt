@@ -1,5 +1,7 @@
 package codeacademy.bookingforum.app.comment
 
+import codeacademy.bookingforum.app.post.Post
+import codeacademy.bookingforum.app.user.auth.UserAuth
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,8 +12,8 @@ class CommentMapper {
             id = dto?.id,
             dateCommented = dto?.dateCommented,
             content = dto?.content,
-            postId = dto?.postId,
-            userId = dto?.userId,
+            postId = Post(dto?.postId),
+            userId = UserAuth(dto?.userId),
             likes = dto?.likes,
             dislikes = dto?.dislikes
         )
@@ -22,8 +24,8 @@ class CommentMapper {
             id = entity?.id,
             dateCommented = entity?.dateCommented,
             content = entity?.content,
-            postId = entity?.postId,
-            userId = entity?.userId,
+            postId = entity?.postId?.id,
+            userId = entity?.userId?.id,
             likes = entity?.likes,
             dislikes = entity?.dislikes,
         )
