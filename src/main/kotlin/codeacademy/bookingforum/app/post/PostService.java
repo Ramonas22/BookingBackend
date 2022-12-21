@@ -28,5 +28,23 @@ public class PostService {
         return postMapper.toDtos(posts);
     }
 
+    public PostDto createPost(PostDto postDto){
+        Post post = postMapper.fromDto(postDto);
+        postRepo.save(post);
+        return postMapper.toDto(post);
+    }
+
+    public PostDto updatePost(PostDto postDto){
+        Post post = postMapper.fromDto(postDto);
+        postRepo.save(post);
+        return postMapper.toDto(post);
+    }
+
+    public void deletePost(Long id){
+        postRepo.deleteById(id);
+    }
+
+
+
 
 }
