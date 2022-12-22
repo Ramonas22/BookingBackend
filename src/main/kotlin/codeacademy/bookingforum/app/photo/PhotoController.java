@@ -12,25 +12,25 @@ public class PhotoController {
     @Autowired
     PhotoService photoService;
 
-    @PostMapping
+    @PostMapping("/postPhoto")
     public PhotoDto addPhoto(@RequestBody PhotoDto photoDto){
         return photoService.createPhoto(photoDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getPhoto/{id}")
     public PhotoDto getPhoto(@PathVariable(name = "id") Long id){
         return photoService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAllPhotos")
     public List<PhotoDto> getAllPhotos(){return photoService.findAllPhotos();}
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletePhoto/{id}")
     public void deletePhoto(@PathVariable(name = "id") Long id){
         photoService.deletePhoto(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updatePhoto/{id}")
     public PhotoDto updatePhoto(@RequestBody PhotoDto photoDto, @PathVariable(name = "id") Long id){
         return photoService.updatePhoto(photoDto);
     }

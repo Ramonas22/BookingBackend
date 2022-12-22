@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(name = "report/")
+@RequestMapping(name = "/report")
 class ReportController {
 
     @Autowired
     private lateinit var service: ReportService
 
-    @GetMapping("/")
+    @GetMapping("/getAllReports")
     fun getAllReports(): List<ReportDto?> {
         return service.getAllReports()
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getReport/{id}")
     fun getReportById(@PathVariable id: Long): ReportDto? {
         return service.getReportById(id)
     }
 
-    @PostMapping("/")
+    @PostMapping("/postReport")
     fun postReport(@RequestBody report: ReportDto?) {
         service.postReport(report)
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateReport/{id}")
     fun updateReport(@PathVariable id: Long, @RequestBody report: ReportDto?) {
         service.updateReport(id, report)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteReport/{id}")
     fun deleteReport(@PathVariable id: Long): String {
         return service.deleteReport(id)
     }

@@ -16,27 +16,27 @@ class TopicCategoryController {
 
     @Autowired
     private lateinit var service: TopicCategoryService
-    @GetMapping("/")
+    @GetMapping("/getAllTopicCategories")
     fun getTopicCategories(): List<TopicCategoryDto?> {
         return service.getAllTopicCategories()
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getTopicCategory/{id}")
     fun getTopicCategoryById(@PathVariable id: Long): TopicCategoryDto? {
         return service.getAllTopicCategoryById(id)
     }
 
-    @PostMapping("/")
+    @PostMapping("/postTopicCategory")
     fun postTopicCategory(@RequestBody topicCategoryDto: TopicCategoryDto?) {
         service.postTopicCategory(topicCategoryDto)
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateTopicCategory{id}")
     fun updateTopicCategory(@PathVariable id: Long, @RequestBody topicCategoryDto: TopicCategoryDto?){
         service.updateTopicCategory(id, topicCategoryDto)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteTopicCategory{id}")
     fun deleteTopicCategory(@PathVariable id: Long): String{
         return service.deleteTopicCategory(id)
     }

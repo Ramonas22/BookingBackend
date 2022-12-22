@@ -13,25 +13,25 @@ public class PostController {
     PostService postService;
 
 
-    @PostMapping
+    @PostMapping("/postPost")
     public PostDto addPost(@RequestBody PostDto postDto) {
         return postService.createPost(postDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getPost/{id}")
     public PostDto getPhoto(@PathVariable(name = "id") Long id) {
         return postService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAllPosts")
     public List<PostDto> getAllPhotos(){return postService.findAllPosts();}
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletePost/{id}")
     public void deletePost(@PathVariable(name = "id") Long id){
         postService.deletePost(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updatePost/{id}")
     public PostDto updatePhoto(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
         return postService.updatePost(postDto);
     }

@@ -11,27 +11,27 @@ class CommentController {
     @Autowired
     private lateinit var service: CommentService
 
-    @GetMapping("/")
+    @GetMapping("/getAllComments")
     fun getComment(): List<CommentDto>? {
         return service.getAllComments()
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getComment/{id}")
     fun getCommentById(@PathVariable id: Long): CommentDto? {
         return service.getCommentById(id)
     }
 
-    @PostMapping("/")
+    @PostMapping("/postComment")
     fun postComment(@RequestBody commentDto: CommentDto?) {
         return service.postComment(commentDto)
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateComment/{id}")
     fun updatePost(@RequestBody commentDto: CommentDto?, @PathVariable id: Long) {
         return service.updateComment(id, commentDto)
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteComment/{id}")
     fun deleteComment(@PathVariable id: Long): String {
         return service.deleteComment(id)
     }
