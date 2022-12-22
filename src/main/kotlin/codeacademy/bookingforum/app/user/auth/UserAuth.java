@@ -17,11 +17,11 @@ import java.util.Collection;
 public class UserAuth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private Long id;
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password")
     private String password;

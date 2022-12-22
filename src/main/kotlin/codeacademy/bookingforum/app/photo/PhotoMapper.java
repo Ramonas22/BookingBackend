@@ -2,10 +2,11 @@ package codeacademy.bookingforum.app.photo;
 
 import codeacademy.bookingforum.app.post.Post;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class PhotoMapper {
 
     public PhotoDto toDto(Photo entity){

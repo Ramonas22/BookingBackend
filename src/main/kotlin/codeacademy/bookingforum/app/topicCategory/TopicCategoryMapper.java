@@ -1,5 +1,8 @@
 package codeacademy.bookingforum.app.topicCategory;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class TopicCategoryMapper {
     public TopicCategoryDto toDto(TopicCategory entity) {
         if (entity == null) {

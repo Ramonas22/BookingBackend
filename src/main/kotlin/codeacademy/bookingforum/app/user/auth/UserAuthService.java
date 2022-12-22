@@ -2,11 +2,15 @@ package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.regex.Pattern;
+@Service
 public class UserAuthService {
     @Autowired
     UserAuthMapper userAuthMapper;
@@ -17,12 +21,26 @@ public class UserAuthService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public UserAuthDto createUser(UserAuthDto user) {
-        if(user == null) {
-            return null;
+    // REGEX (Requirements below)
+    /*
+    Username consists of alphanumeric characters (a-z, A-Z, 0-9), lowercase or uppercase.
+    Username allows usage of underscore (_), and hyphen (-).
+    The underscore (_), or hyphen (-) must not be the first or last character.
+    The underscore (_), or hyphen (-) does not appear consecutively, e.g., user__name
+    Username length must be 5 to 25 characters total.
+     */
+    private static final Pattern pattern = Pattern.compile("^[a-zA-Z0-9]([_-](?![_-])|[a-zA-Z0-9]){3,23}[a-zA-Z0-9]$");
+
+    public ResponseEntity<String> createUser(UserAuthDto newUser) {
+        if(newUser == null) {
+            return new ResponseEntity<>("Invalid request. No user defined.", HttpStatus.NOT_ACCEPTABLE);
+        } else if (newUser.getUsername() == null || newUser.getEmail() == null) {
+            // change
+            return new ResponseEntity<>("sss",HttpStatus.BAD_REQUEST);
         }
-        userAuthRepo.save(userAuthMapper.fromDto(user));
-        return user;
+        userAuthRepo.save(userAuthMapper.fromDto(newUser));
+        // change
+        return new ResponseEntity<>("sss",HttpStatus.BAD_REQUEST);
     }
     public UserAuthDto createSeller(UserAuthDto user) {
         if(user == null) {

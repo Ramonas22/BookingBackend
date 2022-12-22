@@ -1,6 +1,7 @@
 package codeacademy.bookingforum.app.user.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,13 +13,13 @@ public class UserAuthController {
     @Autowired
     UserAuthService userAuthService;
 
-    @PostMapping("/create/user")
-    public UserAuthDto createUser(@RequestBody UserAuthDto user) {
+    @PostMapping("/register/user")
+    public ResponseEntity<String> createUser(@RequestBody UserAuthDto user) {
         return userAuthService.createUser(user);
     }
-    @PostMapping("/create/seller")
-    public UserAuthDto createSeller(@RequestBody UserAuthDto user) {
-        return userAuthService.createSeller(user);
+    @PostMapping("/register/seller")
+    public UserAuthDto createSeller(@RequestBody UserAuthDto newUser) {
+        return userAuthService.createSeller(newUser);
     }
     @GetMapping("/get/{id}")
     public UserAuthDto getUser(@PathVariable("id") Long id) {

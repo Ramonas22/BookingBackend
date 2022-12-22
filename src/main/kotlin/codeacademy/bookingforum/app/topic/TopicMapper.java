@@ -2,10 +2,11 @@ package codeacademy.bookingforum.app.topic;
 
 import codeacademy.bookingforum.app.topicCategory.TopicCategory;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class TopicMapper {
 
     public TopicDto toDto(Topic entity){
