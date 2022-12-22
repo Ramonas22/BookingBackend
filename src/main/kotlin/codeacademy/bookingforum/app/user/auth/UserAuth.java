@@ -1,15 +1,15 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.order.Order;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Table(name = "user_auth")
 @Entity
@@ -25,6 +25,7 @@ public class UserAuth {
     private String email;
     @Column(name = "password")
     private String password;
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
     @Column(name = "biography")
@@ -35,6 +36,8 @@ public class UserAuth {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+    @ManyToMany(mappedBy = "users")
+    private List<Order> orders;
     @Column(name = "enabled")
     private boolean enabled;
     @Column(name = "join_date")
@@ -42,11 +45,21 @@ public class UserAuth {
 
     @OneToOne
     @JoinColumn(name = "seller_id")
-    private SellerPage sellerpage;
+    private SellerPage sellerPage;
+
+
 
 
     public UserAuth(Long id) {
         this.id = id;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public Long getId() {
@@ -121,11 +134,11 @@ public class UserAuth {
         this.joinDate = joinDate;
     }
 
-    public SellerPage getSellerpage() {
-        return sellerpage;
+    public SellerPage getSellerPage() {
+        return sellerPage;
     }
 
-    public void setSellerpage(SellerPage sellerpage) {
-        this.sellerpage = sellerpage;
+    public void setSellerPage(SellerPage sellerPage) {
+        this.sellerPage = sellerPage;
     }
 }

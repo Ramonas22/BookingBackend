@@ -1,27 +1,18 @@
 package codeacademy.bookingforum.app.user.seller.rating;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class SellerRatingDto {
-
     private Long id;
-
-    private Integer rating;
-
+    private Double rating;
     private String comment;
-
-    private Date date;
-
-    private List<Long> userRating_id;
-
-    private List<Long> raitingSeller_id;
-
+    private LocalDateTime date;
+    private List<Long> userIds;
+    private List<Long> sellerRatingIds;
 }

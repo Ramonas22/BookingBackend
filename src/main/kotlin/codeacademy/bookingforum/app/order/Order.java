@@ -10,13 +10,13 @@ import java.util.List;
 @Table(name = "order")
 @Entity
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-
+    @Column(name = "details")
     private String details;
-
+    @Column(name = "booked_date")
     private Date bookedDate;
 
     @ManyToMany
@@ -24,14 +24,14 @@ public class Order {
             name = "user_order",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<UserAuth> orderUser;
+    private List<UserAuth> users;
 
     @ManyToMany
     @JoinTable(
             name = "seller_order",
             joinColumns = @JoinColumn(name = "seller_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<SellerPage> orderSeller;
+    private List<SellerPage> sellers;
 
     public Order() {}
 
@@ -63,19 +63,19 @@ public class Order {
         this.bookedDate = bookedDate;
     }
 
-    public List<UserAuth> getOrderUser() {
-        return orderUser;
+    public List<UserAuth> getUsers() {
+        return users;
     }
 
-    public void setOrderUser(List<UserAuth> orderUser) {
-        this.orderUser = orderUser;
+    public void setUsers(List<UserAuth> users) {
+        this.users = users;
     }
 
-    public List<SellerPage> getOrderSeller() {
-        return orderSeller;
+    public List<SellerPage> getSellers() {
+        return sellers;
     }
 
-    public void setOrderSeller(List<SellerPage> orderSeller) {
-        this.orderSeller = orderSeller;
+    public void setSellers(List<SellerPage> sellers) {
+        this.sellers = sellers;
     }
 }

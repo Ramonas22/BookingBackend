@@ -18,7 +18,7 @@ public class TopicMapper {
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setPostCount(entity.getPostCount());
-        dto.setReplayCount(entity.getReplayCount());
+        dto.setReplayCount(entity.getReplyCount());
         dto.setPostLast(entity.getPostLast());
         dto.setUserLastPost(entity.getUserLastPost());
         dto.setUserId(entity.getId());
@@ -39,7 +39,7 @@ public class TopicMapper {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setPostCount(dto.getPostCount());
-        entity.setReplayCount(dto.getReplayCount());
+        entity.setReplyCount(dto.getReplayCount());
         entity.setPostLast(dto.getPostLast());
         entity.setUserLastPost(dto.getUserLastPost());
         entity.setUser(user);

@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(name = "/topicController")
+@RequestMapping(name = "/topicController/")
 class TopicController {
 
     @Autowired
     private lateinit var service: TopicService
 
-    @GetMapping("/getAllTopics")
+    @GetMapping("/")
     fun getAllTopics(): List<TopicDto?> {
         return service.getAllTopics()
     }
 
-    @GetMapping("/topic/{id}")
+    @GetMapping("/{id}")
     fun getTopicById(@PathVariable id: Long): TopicDto? {
         return service.getTopicById(id)
     }
 
-    @PostMapping("/postTopic")
+    @PostMapping("/")
     fun postTopic(@RequestBody topicDto: TopicDto?) {
         service.postTopic(topicDto)
     }
 
-    @PutMapping("/updateTopic/{id}")
+    @PutMapping("/{id}")
     fun updateTopic(@PathVariable id: Long, @RequestBody topicDto: TopicDto?) {
         service.updateTopic(id, topicDto)
     }
 
-    @DeleteMapping("/deleteTopic/{id}")
+    @DeleteMapping("/{id}")
     fun deleteTopic(@PathVariable id: Long): String {
         return service.deleteTopic(id)
     }

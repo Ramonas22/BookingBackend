@@ -15,8 +15,8 @@ public class SellerPageMapper {
         SellerPageDto dto = new SellerPageDto();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
-        dto.setMin(entity.getMin());
-        dto.setMax(entity.getMax());
+        dto.setPriceMin(entity.getPriceMin());
+        dto.setPriceMax(entity.getPriceMax());
 
 //        List<String> galleryLinks = new ArrayList<>();
 //        for(SellerPage link: entity.getGalleryLinks()){
@@ -24,7 +24,7 @@ public class SellerPageMapper {
 //        }
 //        dto.setGalaleryLinks(galleryLinks);
         dto.setGalaleryLinks(entity.getGalleryLinks());
-        dto.setUnavailableDate(entity.getUnavailableDate());
+        dto.setUnavailableDate(entity.getUnavailableDates());
         return dto;
     }
 
@@ -35,10 +35,10 @@ public class SellerPageMapper {
         SellerPage entity = new SellerPage();
         entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
-        entity.setMin(dto.getMin());
-        entity.setMax(dto.getMax());
+        entity.setPriceMin(dto.getPriceMin());
+        entity.setPriceMax(dto.getPriceMax());
         entity.setGalleryLinks(dto.getGalaleryLinks());
-        entity.setUnavailableDate(dto.getUnavailableDate());
+        entity.setUnavailableDates(dto.getUnavailableDate());
 
         return entity;
 

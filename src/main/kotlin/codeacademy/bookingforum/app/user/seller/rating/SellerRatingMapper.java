@@ -20,17 +20,17 @@ public class SellerRatingMapper {
         dto.setComment(entity.getComment());
         dto.setDate(entity.getDate());
 
-        List<Long> usRating = new ArrayList<>();
-        for(UserAuth usrat: entity.getUserRating()){
-            usRating.add(usrat.getId());
+        List<Long> userIds = new ArrayList<>();
+        for(UserAuth usrat: entity.getUsers()){
+            userIds.add(usrat.getId());
         }
-        dto.setUserRating_id(usRating);
+        dto.setUserIds(userIds);
 
-        List<Long> raitingSell = new ArrayList<>();
-        for(SellerPage sell: entity.getRatingSeller()){
-            raitingSell.add(sell.getId());
+        List<Long> sellerPageIds = new ArrayList<>();
+        for(SellerPage sell: entity.getSellerPages()){
+            sellerPageIds.add(sell.getId());
         }
-        dto.setRaitingSeller_id(raitingSell);
+        dto.setSellerRatingIds(sellerPageIds);
         return dto;
     }
 
@@ -45,17 +45,19 @@ public class SellerRatingMapper {
         entity.setComment(dto.getComment());
         entity.setDate(dto.getDate());
 
-        List<UserAuth> userAuthList = new ArrayList<>();
-        for(Long id: dto.getUserRating_id()){
-            userAuthList.add(new UserAuth(id));
+        List<UserAuth> userIds = new ArrayList<>();
+        for(Long id: dto.getUserIds()){
+            userIds.add(new UserAuth(id));
         }
-        entity.setUserRating(userAuthList);
+        entity.setUsers(userIds);
 
         List<SellerPage> sellerPageList =new ArrayList<>();
-        for(Long id: dto.getRaitingSeller_id()){
-            sellerPageList.add(new SellerPage(id));
+        for(Long id: dto.getSellerRatingIds()){
+            SellerPage page = new SellerPage();
+            page.setId(id);
+            sellerPageList.add(page);
         }
-        entity.setRatingSeller(sellerPageList);
+        entity.setSellerPages(sellerPageList);
 
         return entity;
     }

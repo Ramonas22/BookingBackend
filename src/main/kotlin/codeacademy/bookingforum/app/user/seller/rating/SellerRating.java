@@ -3,42 +3,39 @@ package codeacademy.bookingforum.app.user.seller.rating;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "seller_rating")
 @Entity
+@NoArgsConstructor
 public class SellerRating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-
-    private Integer rating;
-
+    @ManyToMany
+    @JoinTable(
+            name = "user_seller_rating",
+            joinColumns = @JoinColumn(name = "seller_rating_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserAuth> users;
+    @ManyToMany
+    @JoinTable(
+            name = "seller_page_rating",
+            joinColumns = @JoinColumn(name = "seller_rating_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<SellerPage> sellerPages;
+    @Column(name = "rating")
+    private Double rating;
+    @Column(name = "comment")
     private String comment;
-
-    private Date date;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_seller_rank",
-            joinColumns = @JoinColumn(name = "sellerrating_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<UserAuth> userRating;
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "Sellrating_sellerPage",
-            joinColumns = @JoinColumn(name = "sellerrating_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<SellerPage> ratingSeller;
-
-    public SellerRating() {}
+    @Column(name = "date")
+    private LocalDateTime date;
 
     public Long getId() {
         return id;
@@ -48,11 +45,27 @@ public class SellerRating {
         this.id = id;
     }
 
-    public Integer getRating() {
+    public List<UserAuth> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserAuth> users) {
+        this.users = users;
+    }
+
+    public List<SellerPage> getSellerPages() {
+        return sellerPages;
+    }
+
+    public void setSellerPages(List<SellerPage> sellerPages) {
+        this.sellerPages = sellerPages;
+    }
+
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -64,27 +77,11 @@ public class SellerRating {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
-    }
-
-    public List<UserAuth> getUserRating() {
-        return userRating;
-    }
-
-    public void setUserRating(List<UserAuth> userRating) {
-        this.userRating = userRating;
-    }
-
-    public List<SellerPage> getRatingSeller() {
-        return ratingSeller;
-    }
-
-    public void setRatingSeller(List<SellerPage> ratingSeller) {
-        this.ratingSeller = ratingSeller;
     }
 }

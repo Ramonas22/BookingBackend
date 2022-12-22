@@ -4,51 +4,39 @@ import codeacademy.bookingforum.app.order.Order;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Table(name = "seller_page")
 @Entity
+@NoArgsConstructor
 public class SellerPage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-
+    @Column(name = "description")
     private String description;
-
+    @Column(name = "gallery_links")
     private List<String> galleryLinks;
-
-    private Integer min;
-
-    private Integer max;
-
-    private List<Date> unavailableDate;
-
-    @OneToOne(mappedBy = "sellerpage")
+    @Column(name = "price_min")
+    private Double priceMin;
+    @Column(name = "price_max")
+    private Double priceMax;
+    @Column(name = "unavailable_dates")
+    private List<Date> unavailableDates;
+    @OneToOne(mappedBy = "sellerPage")
     private UserAuth userauth;
-
-    @ManyToMany(mappedBy = "ratingSeller")
-    private List<SellerRating> sellerRate;
-
-    @ManyToMany(mappedBy = "orderSeller")
+    @ManyToMany(mappedBy = "users")
+    private List<SellerRating> sellerRatings;
+    @ManyToMany(mappedBy = "sellers")
     private List<Order> sellerOrder;
-
-    public SellerPage() {
-
-    }
 
     public SellerPage(Long id) {
         this.id = id;
-    }
-
-    public List<Date> getUnavailableDate() {
-        return unavailableDate;
-    }
-
-    public void setUnavailableDate(List<Date> unavailableDate) {
-        this.unavailableDate = unavailableDate;
     }
 
     public Long getId() {
@@ -75,20 +63,28 @@ public class SellerPage {
         this.galleryLinks = galleryLinks;
     }
 
-    public Integer getMin() {
-        return min;
+    public Double getPriceMin() {
+        return priceMin;
     }
 
-    public void setMin(Integer min) {
-        this.min = min;
+    public void setPriceMin(Double priceMin) {
+        this.priceMin = priceMin;
     }
 
-    public Integer getMax() {
-        return max;
+    public Double getPriceMax() {
+        return priceMax;
     }
 
-    public void setMax(Integer max) {
-        this.max = max;
+    public void setPriceMax(Double priceMax) {
+        this.priceMax = priceMax;
+    }
+
+    public List<Date> getUnavailableDates() {
+        return unavailableDates;
+    }
+
+    public void setUnavailableDates(List<Date> unavailableDates) {
+        this.unavailableDates = unavailableDates;
     }
 
     public UserAuth getUserauth() {
@@ -99,12 +95,12 @@ public class SellerPage {
         this.userauth = userauth;
     }
 
-    public List<SellerRating> getSellerRate() {
-        return sellerRate;
+    public List<SellerRating> getSellerRatings() {
+        return sellerRatings;
     }
 
-    public void setSellerRate(List<SellerRating> sellerRate) {
-        this.sellerRate = sellerRate;
+    public void setSellerRatings(List<SellerRating> sellerRatings) {
+        this.sellerRatings = sellerRatings;
     }
 
     public List<Order> getSellerOrder() {
@@ -115,3 +111,4 @@ public class SellerPage {
         this.sellerOrder = sellerOrder;
     }
 }
+

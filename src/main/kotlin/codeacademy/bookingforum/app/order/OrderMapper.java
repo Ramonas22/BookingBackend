@@ -20,13 +20,13 @@ public class OrderMapper {
         dto.setBookedDate(entity.getBookedDate());
 
         List<Long> orderUserList = new ArrayList<>();
-        for(UserAuth user: entity.getOrderUser()){
+        for(UserAuth user: entity.getUsers()){
             orderUserList.add(user.getId());
         }
         dto.setOrderUser_id(orderUserList);
 
         List<Long> orderSellerList = new ArrayList<>();
-        for(SellerPage seller: entity.getOrderSeller()){
+        for(SellerPage seller: entity.getSellers()){
             orderUserList.add(seller.getId());
         }
         dto.setOrderSeller_id(orderSellerList);
@@ -48,13 +48,13 @@ public class OrderMapper {
             UserAuth user = new UserAuth();
             user.setId(id);
         }
-        entity.setOrderUser(userAuthList);
+        entity.setUsers(userAuthList);
 
         List<SellerPage> sellerPageList = new ArrayList<>();
         for(Long id: dto.getOrderSeller_id()){
             sellerPageList.add(new SellerPage(id));
         }
-        entity.setOrderSeller(sellerPageList);
+        entity.setSellers(sellerPageList);
 
         return entity;
     }

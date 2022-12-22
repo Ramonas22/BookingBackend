@@ -10,7 +10,9 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "display_name")
     private String displayName;
     @ManyToMany(mappedBy = "roles")
     private Collection<UserAuth> users;

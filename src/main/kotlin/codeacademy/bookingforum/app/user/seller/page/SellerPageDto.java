@@ -18,9 +18,9 @@ public class SellerPageDto {
 
     private List<String> galaleryLinks;
 
-    private Integer min;
+    private Double priceMin;
 
-    private Integer max;
+    private Double priceMax;
 
     private List<Date> unavailableDate;
 
