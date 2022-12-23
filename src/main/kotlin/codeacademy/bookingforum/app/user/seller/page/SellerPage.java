@@ -1,6 +1,6 @@
 package codeacademy.bookingforum.app.user.seller.page;
 
-import codeacademy.bookingforum.app.order.Order;
+import codeacademy.bookingforum.app.order.Purchase;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
 import jakarta.persistence.*;
@@ -33,7 +33,7 @@ public class SellerPage {
     @ManyToMany(mappedBy = "users")
     private List<SellerRating> sellerRatings;
     @ManyToMany(mappedBy = "sellers")
-    private List<Order> sellerOrder;
+    private List<Purchase> purchases;
 
     public SellerPage(Long id) {
         this.id = id;
@@ -103,12 +103,12 @@ public class SellerPage {
         this.sellerRatings = sellerRatings;
     }
 
-    public List<Order> getSellerOrder() {
-        return sellerOrder;
+    public List<Purchase> getPurchases() {
+        return purchases;
     }
 
-    public void setSellerOrder(List<Order> sellerOrder) {
-        this.sellerOrder = sellerOrder;
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
     }
 }
 

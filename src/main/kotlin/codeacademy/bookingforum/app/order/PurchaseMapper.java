@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderMapper {
+public class PurchaseMapper {
 
-    public OrderDto toDto(Order entity){
+    public PurchaseDto toDto(Purchase entity){
         if(entity == null){
             return null;
         }
-        OrderDto dto = new OrderDto();
+        PurchaseDto dto = new PurchaseDto();
         dto.setId(entity.getId());
         dto.setDetails(entity.getDetails());
         dto.setBookedDate(entity.getBookedDate());
@@ -34,11 +34,11 @@ public class OrderMapper {
         return dto;
     }
 
-    public Order fromDto(OrderDto dto){
+    public Purchase fromDto(PurchaseDto dto){
         if (dto == null){
             return null;
         }
-       Order entity = new Order();
+       Purchase entity = new Purchase();
         entity.setId(dto.getId());
         entity.setDetails(dto.getDetails());
         entity.setBookedDate(dto.getBookedDate());
@@ -59,10 +59,10 @@ public class OrderMapper {
         return entity;
     }
 
-    public List<OrderDto> toDto(List<Order> entities) {
-        List<OrderDto> dtos = new ArrayList<>();
+    public List<PurchaseDto> toDto(List<Purchase> entities) {
+        List<PurchaseDto> dtos = new ArrayList<>();
 
-        for (Order entity : entities) {
+        for (Purchase entity : entities) {
             dtos.add(toDto(entity));
         }
 

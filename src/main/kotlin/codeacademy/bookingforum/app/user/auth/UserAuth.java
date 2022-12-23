@@ -1,6 +1,6 @@
 package codeacademy.bookingforum.app.user.auth;
 
-import codeacademy.bookingforum.app.order.Order;
+import codeacademy.bookingforum.app.order.Purchase;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
@@ -37,7 +37,7 @@ public class UserAuth {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
     @ManyToMany(mappedBy = "users")
-    private List<Order> orders;
+    private List<Purchase> purchases;
     @Column(name = "enabled")
     private boolean enabled;
     @Column(name = "join_date")
@@ -54,12 +54,12 @@ public class UserAuth {
         this.id = id;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<Purchase> getPurchases() {
+        return purchases;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
     }
 
     public Long getId() {

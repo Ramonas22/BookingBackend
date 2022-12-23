@@ -4,12 +4,12 @@ import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Table(name = "order")
+@Table(name = "purchase")
 @Entity
-public class Order {
+public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "details")
     private String details;
     @Column(name = "booked_date")
-    private Date bookedDate;
+    private LocalDateTime bookedDate;
 
     @ManyToMany
     @JoinTable(
@@ -33,9 +33,9 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<SellerPage> sellers;
 
-    public Order() {}
+    public Purchase() {}
 
-    public Order(Long id) {
+    public Purchase(Long id) {
         this.id = id;
     }
 
@@ -55,11 +55,11 @@ public class Order {
         this.details = details;
     }
 
-    public Date getBookedDate() {
+    public LocalDateTime getBookedDate() {
         return bookedDate;
     }
 
-    public void setBookedDate(Date bookedDate) {
+    public void setBookedDate(LocalDateTime bookedDate) {
         this.bookedDate = bookedDate;
     }
 
