@@ -1,6 +1,6 @@
 package codeacademy.bookingforum.app.user.seller.page;
 
-import codeacademy.bookingforum.app.order.Purchase;
+import codeacademy.bookingforum.app.purchase.Purchase;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
 import jakarta.persistence.*;

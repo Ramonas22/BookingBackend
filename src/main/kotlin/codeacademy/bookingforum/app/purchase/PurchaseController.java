@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.order;
+package codeacademy.bookingforum.app.purchase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

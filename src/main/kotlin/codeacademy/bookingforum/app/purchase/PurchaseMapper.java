@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.order;
+package codeacademy.bookingforum.app.purchase;
 
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;

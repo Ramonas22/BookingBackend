@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.order;
+package codeacademy.bookingforum.app.purchase;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

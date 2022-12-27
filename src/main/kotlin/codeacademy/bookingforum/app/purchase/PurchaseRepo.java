@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.order;
+package codeacademy.bookingforum.app.purchase;
 
 import org.springframework.data.repository.CrudRepository;
 

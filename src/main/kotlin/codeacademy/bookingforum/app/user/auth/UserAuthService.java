@@ -1,9 +1,9 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.ecxeption.user.UserNotFoundException;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class UserAuthService {
 
     public ResponseEntity<String> createUser(UserAuthDto newUser) {
         if(newUser == null) {
-            return new ResponseEntity<>("Invalid request. No user defined.", HttpStatus.NOT_ACCEPTABLE);
+            throw new UserNotFoundException("Invalid request. No user defined.");
         } else if (newUser.getUsername() == null || newUser.getEmail() == null) {
             // change
             return new ResponseEntity<>("sss",HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class UserAuthService {
         return user;
     }
     public UserAuthDto getUser(Long id) {
-        UserAuth user = userAuthRepo.findById(id).orElse(null);
+        UserAuth user = userAuthRepo.findById(id).orElseThrow(() -> new UserNotFoundException("Could not find user with id "+id));
         return userAuthMapper.toDto(user);
     }
     public List<UserAuth> userList() {

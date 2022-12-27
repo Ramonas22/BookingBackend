@@ -1,6 +1,6 @@
 package codeacademy.bookingforum.app.user.auth;
 
-import codeacademy.bookingforum.app.order.Purchase;
+import codeacademy.bookingforum.app.purchase.Purchase;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "user_auth")
 @Entity
@@ -52,6 +53,42 @@ public class UserAuth {
 
     public UserAuth(Long id) {
         this.id = id;
+    }
+
+    public UserAuth(String username, String password, Collection<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAuth userAuth = (UserAuth) o;
+        return enabled == userAuth.enabled && id.equals(userAuth.id) && username.equals(userAuth.username) && email.equals(userAuth.email) && password.equals(userAuth.password) && gender == userAuth.gender && Objects.equals(biography, userAuth.biography) && roles.equals(userAuth.roles) && Objects.equals(purchases, userAuth.purchases) && joinDate.equals(userAuth.joinDate) && Objects.equals(sellerPage, userAuth.sellerPage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, password, gender, biography, roles, purchases, enabled, joinDate, sellerPage);
+    }
+
+    @Override
+    public String toString() {
+        return "UserAuth{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", biography='" + biography + '\'' +
+                ", roles=" + roles +
+                ", purchases=" + purchases +
+                ", enabled=" + enabled +
+                ", joinDate=" + joinDate +
+                ", sellerPage=" + sellerPage +
+                '}';
     }
 
     public List<Purchase> getPurchases() {
