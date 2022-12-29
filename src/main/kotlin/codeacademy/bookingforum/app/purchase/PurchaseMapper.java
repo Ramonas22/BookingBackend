@@ -59,13 +59,16 @@ public class PurchaseMapper {
         return entity;
     }
 
-    public List<PurchaseDto> toDto(List<Purchase> entities) {
+    public List<PurchaseDto> toDtoList(List<Purchase> entities) {
         List<PurchaseDto> dtos = new ArrayList<>();
-
         for (Purchase entity : entities) {
             dtos.add(toDto(entity));
         }
-
         return dtos;
     }
+//    public List<Purchase> fromDtoList(List<PurchaseDto> dtos) {
+//        List<Purchase> entities = new ArrayList<>();
+//        dtos.forEach(dto -> {entities.add(this.fromDto(dto));});
+//        return entities;
+//    }
 }

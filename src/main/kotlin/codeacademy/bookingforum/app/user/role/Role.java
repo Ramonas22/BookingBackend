@@ -15,7 +15,7 @@ public class Role {
     @Column(name = "display_name")
     private String displayName;
     @ManyToMany(mappedBy = "roles")
-    private Collection<UserAuth> users;
+    private List<UserAuth> users;
 
     public Role() {
     }

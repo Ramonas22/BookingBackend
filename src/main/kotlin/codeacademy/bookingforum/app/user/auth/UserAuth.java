@@ -8,9 +8,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Table(name = "user_auth")
 @Entity
@@ -36,7 +34,7 @@ public class UserAuth {
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
     @ManyToMany(mappedBy = "users")
     private List<Purchase> purchases;
     @Column(name = "enabled")
@@ -55,40 +53,10 @@ public class UserAuth {
         this.id = id;
     }
 
-    public UserAuth(String username, String password, Collection<Role> roles) {
+    public UserAuth(String username, String password, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserAuth userAuth = (UserAuth) o;
-        return enabled == userAuth.enabled && id.equals(userAuth.id) && username.equals(userAuth.username) && email.equals(userAuth.email) && password.equals(userAuth.password) && gender == userAuth.gender && Objects.equals(biography, userAuth.biography) && roles.equals(userAuth.roles) && Objects.equals(purchases, userAuth.purchases) && joinDate.equals(userAuth.joinDate) && Objects.equals(sellerPage, userAuth.sellerPage);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, password, gender, biography, roles, purchases, enabled, joinDate, sellerPage);
-    }
-
-    @Override
-    public String toString() {
-        return "UserAuth{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", gender=" + gender +
-                ", biography='" + biography + '\'' +
-                ", roles=" + roles +
-                ", purchases=" + purchases +
-                ", enabled=" + enabled +
-                ", joinDate=" + joinDate +
-                ", sellerPage=" + sellerPage +
-                '}';
     }
 
     public List<Purchase> getPurchases() {
@@ -147,11 +115,11 @@ public class UserAuth {
         this.biography = biography;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

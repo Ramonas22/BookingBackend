@@ -7,16 +7,15 @@ public enum Gender {
     OTHER,
     UNDEFINED;
 
-    private String displayName;
-    private int weight;
-
-    private static String[] maleArgs = {"1","M","MALE"};
-    private static String[] femaleArgs = {"2","F","FEMALE"};
-    private static String[] otherArgs = {"3","GAY","LESBIAN","BI","BISEXUAL","TRANS","TRANSGENDER","UNTRADITIONAL","OTHER","DIFFERENT","NEITHER","BOTH","NEUTRAL","NONBINARY"};
-    private static String[] undefinedArgs = {"0",null,"NONE","","NULL","GENDERLESS","PREFER NOT TO SAY","AGENDER"};
+    private static final String[] maleArgs = {"1","M","MALE"};
+    private static final String[] femaleArgs = {"2","F","FEMALE"};
+    private static final String[] otherArgs = {"3","GAY","LESBIAN","BI","BISEXUAL","TRANS","TRANSGENDER","UNTRADITIONAL","OTHER","DIFFERENT","NEITHER","BOTH","NEUTRAL","NONBINARY","AGENDER"};
+    private static final String[] undefinedArgs = {"0","NONE","","NULL","GENDERLESS","PREFER NOT TO SAY"};
 
     public static Gender parse(String value) {
-        value = value.trim().toUpperCase();
+        if(value != null) {
+            value = value.trim().toUpperCase();
+        }
 
         if(Arrays.asList(maleArgs).contains(value)) {
             return MALE;
@@ -27,7 +26,7 @@ public enum Gender {
         } else if (Arrays.asList(undefinedArgs).contains(value)) {
             return UNDEFINED;
         } else {
-            return null;
+            return UNDEFINED;
         }
     }
 

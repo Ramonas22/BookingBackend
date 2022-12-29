@@ -8,38 +8,38 @@ import java.util.List;
 public class PurchaseService {
 
     @Autowired
-    PurchaseRepo orderrepo;
+    PurchaseRepo purchaseRepo;
 
     @Autowired
-    PurchaseMapper ordermapper;
+    PurchaseMapper purchaseMapper;
 
 
     public PurchaseDto findById(Long id){
 
-        Purchase purchase = orderrepo.findById(id).orElse(null);
-        return ordermapper.toDto(purchase);
+        Purchase purchase = purchaseRepo.findById(id).orElse(null);
+        return purchaseMapper.toDto(purchase);
     }
 
     public List<PurchaseDto> findAllOrder(){
-        List<Purchase> purchases = (List<Purchase>) orderrepo.findAll();
+        List<Purchase> purchases = (List<Purchase>) purchaseRepo.findAll();
 
-        return ordermapper.toDto(purchases);
+        return purchaseMapper.toDtoList(purchases);
     }
 
     public PurchaseDto createOrder(PurchaseDto purchaseDto){
-        Purchase purchase = ordermapper.fromDto(purchaseDto);
-        orderrepo.save(purchase);
-        return ordermapper.toDto(purchase);
+        Purchase purchase = purchaseMapper.fromDto(purchaseDto);
+        purchaseRepo.save(purchase);
+        return purchaseMapper.toDto(purchase);
     }
 
     public PurchaseDto updateOrder(PurchaseDto purchaseDto){
-        Purchase purchase = ordermapper.fromDto(purchaseDto);
-        orderrepo.save(purchase);
-        return ordermapper.toDto(purchase);
+        Purchase purchase = purchaseMapper.fromDto(purchaseDto);
+        purchaseRepo.save(purchase);
+        return purchaseMapper.toDto(purchase);
     }
 
     public void deleteOrder(Long id){
-        orderrepo.deleteById(id);
+        purchaseRepo.deleteById(id);
     }
 
 
