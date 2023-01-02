@@ -39,12 +39,12 @@ public class UserAuthController {
         return userAuthService.createSeller(seller, request);
     }
     @GetMapping("/get/id/{id}")
-    public ResponseObject getUserById(@PathVariable("id") Long id, WebRequest request) {
-        return userAuthService.getUserById(id, request);
+    public UserManagementDto getUserById(@PathVariable("id") Long id) {
+        return userAuthService.getUserById(id);
     }
     @GetMapping("/get/username/{username}")
-    public ResponseObject getUserByUsername(@PathVariable("username") String username, WebRequest request) {
-        return userAuthService.getUserByUsername(username, request);
+    public UserManagementDto getUserByUsername(@PathVariable("username") String username) {
+        return userAuthService.getUserByUsername(username);
     }
     @GetMapping("/get/userlist")
     public List<UserAuth> userList() {

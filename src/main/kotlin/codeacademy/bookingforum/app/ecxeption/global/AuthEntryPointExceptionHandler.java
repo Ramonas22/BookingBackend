@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.ecxeption;
+package codeacademy.bookingforum.app.ecxeption.global;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

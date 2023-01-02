@@ -4,6 +4,7 @@ import codeacademy.bookingforum.app.purchase.Purchase;
 import codeacademy.bookingforum.app.user.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
@@ -29,19 +30,21 @@ public class UserAuth {
     private Gender gender;
     @Column(name = "biography")
     private String biography;
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+    @JsonIgnore
     @ManyToMany(mappedBy = "users")
     private List<Purchase> purchases;
     @Column(name = "enabled")
     private boolean enabled;
     @Column(name = "join_date")
     private LocalDateTime joinDate;
-
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "seller_id")
     private SellerPage sellerPage;

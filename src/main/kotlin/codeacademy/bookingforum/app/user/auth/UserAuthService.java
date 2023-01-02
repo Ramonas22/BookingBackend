@@ -51,17 +51,17 @@ public class UserAuthService {
             throw new InvalidRequestException("Invalid request. Something went wrong.");
         }
     }
-    public ResponseObject getUserById(Long id, WebRequest request) {
+    public UserManagementDto getUserById(Long id) {
         UserAuth user = userAuthRepo.findById(id).orElse(null);
         if (user == null) {
             throw new UserNotFoundException("Could not find user with id "+id);
-        } return new ResponseObject("User was found.", userAuthMapper.toDtoManagement(user), request);
+        } return userAuthMapper.toDtoManagement(user);
     }
-    public ResponseObject getUserByUsername(String username, WebRequest request) {
+    public UserManagementDto getUserByUsername(String username) {
         UserAuth user = userAuthRepo.findByUsername(username);
         if (user == null) {
             throw new UserNotFoundException("Could not find user with username "+username);
-        } return new ResponseObject("User was found.", userAuthMapper.toDtoManagement(user), request);
+        } return userAuthMapper.toDtoManagement(user);
     }
     public List<UserAuth> userList() {
         return userAuthRepo.findAll();

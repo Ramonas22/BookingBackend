@@ -16,7 +16,7 @@ import java.util.Collections;
 
 // Executes tasks when the program starts. Creates default Admin user and two default roles (ROLE_USER and ROLE_ADMIN)
 @Component
-public class SetupDataLoader implements
+public class SetupDataOnStartup implements
         ApplicationListener<ContextRefreshedEvent> {
 
     boolean alreadySetup = false;
@@ -44,7 +44,7 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN");
         createRoleIfNotFound("ROLE_USER");
 
-        createUserIfNotFound("Admin","admin@irenteye.com","h5H5n7DSV$aT4D^S^9Wq");
+        createUserIfNotFound("Admin", "admin@irenteye.com", "h5H5n7DSV$aT4D^S^9Wq");
 
         alreadySetup = true;
     }
@@ -59,6 +59,7 @@ public class SetupDataLoader implements
         }
         return role;
     }
+
     @Transactional
     UserAuth createUserIfNotFound(String name, String email, String password) {
         UserAuth user = userRepository.findByUsername(name);
