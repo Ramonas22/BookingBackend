@@ -37,6 +37,15 @@ public class SellerRating {
     @Column(name = "date")
     private LocalDateTime date;
 
+    public SellerRating(Long id, List<UserAuth> users, List<SellerPage> sellerPages, Double rating, String comment, LocalDateTime date) {
+        this.id = id;
+        this.users = users;
+        this.sellerPages = sellerPages;
+        this.rating = rating;
+        this.comment = comment;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }
