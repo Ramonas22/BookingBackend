@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/sellerRating")
 class SellerRatingController {
     @Autowired
     private lateinit var service: SellerRatingService
@@ -24,12 +25,12 @@ class SellerRatingController {
     }
 
     @PutMapping("/updateSellerRating/{id}")
-    fun putSellerRating(@RequestBody dto: SellerRatingDto?, @PathVariable id: Long) {
-        service.updateSellerRating(id, dto)
+    fun putSellerRating(@RequestBody dto: SellerRatingDto?, @PathVariable id: Long): String {
+        return service.updateSellerRating(id, dto)
     }
 
     @DeleteMapping("/delete/{id}")
-    fun deleteSellerRatingById(@PathVariable id: Long): String{
+    fun deleteSellerRatingById(@PathVariable id: Long): String {
         return service.deleteSellerRatingById(id)
     }
 }

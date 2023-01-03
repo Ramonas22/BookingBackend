@@ -39,6 +39,18 @@ public class SellerPage {
         this.id = id;
     }
 
+    public SellerPage(Long id, String description, List<String> galleryLinks, Double priceMin, Double priceMax, List<Date> unavailableDates, UserAuth userauth, List<SellerRating> sellerRatings, List<Purchase> purchases) {
+        this.id = id;
+        this.description = description;
+        this.galleryLinks = galleryLinks;
+        this.priceMin = priceMin;
+        this.priceMax = priceMax;
+        this.unavailableDates = unavailableDates;
+        this.userauth = userauth;
+        this.sellerRatings = sellerRatings;
+        this.purchases = purchases;
+    }
+
     public Long getId() {
         return id;
     }

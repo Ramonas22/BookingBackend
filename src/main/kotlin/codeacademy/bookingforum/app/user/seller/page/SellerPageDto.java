@@ -24,7 +24,11 @@ public class SellerPageDto {
 
     private List<Date> unavailableDate;
 
+    private Long userId;
 
+    private List<Long> sellerRatingsIds;
+
+    private List<Long> purchasesIds;
 
 
 }
