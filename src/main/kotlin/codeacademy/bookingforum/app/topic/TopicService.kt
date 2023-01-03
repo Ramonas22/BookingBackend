@@ -11,6 +11,7 @@ class TopicService {
 
     @Autowired
     private lateinit var mapper: TopicMapper
+
     @Autowired
     private lateinit var repository: TopicRepository
     fun getAllTopics(): List<TopicDto?> {
@@ -18,15 +19,15 @@ class TopicService {
     }
 
     fun getTopicById(id: Long): TopicDto? {
-         return repository.findByIdOrNull(id).let { mapper.toDto(it) }
+        return repository.findByIdOrNull(id).let { mapper.toDto(it) }
     }
 
     fun postTopic(topicDto: TopicDto?) {
         mapper.fromDto(topicDto)?.let { repository.save(it) }
     }
 
-    fun updateTopic(id: Long, topicDto: TopicDto?) {
-        if(repository.existsById(id)){
+    fun updateTopic(id: Long, topicDto: TopicDto?): String {
+        return if (repository.existsById(id)) {
             repository.save(
                 Topic(
                     id,
@@ -40,15 +41,18 @@ class TopicService {
                     TopicCategory(topicDto?.topicCategory_id)
                 )
             )
+            "Topic with Id $id updated"
+        } else {
+            "Topic with $id does not exist"
         }
     }
 
     fun deleteTopic(id: Long): String {
-        return if(repository.existsById(id)){
+        return if (repository.existsById(id)) {
             repository.deleteById(id)
-            "Deleted user with id $id"
-        }else{
-            "Id not found"
+            "Deleted topic with id $id"
+        } else {
+            "Topic with $id not found"
         }
     }
 }

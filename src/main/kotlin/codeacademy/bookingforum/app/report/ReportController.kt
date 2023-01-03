@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(name = "/report")
+@RequestMapping("/report")
 class ReportController {
 
     @Autowired
@@ -33,8 +33,8 @@ class ReportController {
     }
 
     @PutMapping("/updateReport/{id}")
-    fun updateReport(@PathVariable id: Long, @RequestBody report: ReportDto?) {
-        service.updateReport(id, report)
+    fun updateReport(@PathVariable id: Long, @RequestBody report: ReportDto?): String {
+        return service.updateReport(id, report)
     }
 
     @DeleteMapping("/deleteReport/{id}")

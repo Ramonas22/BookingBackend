@@ -24,7 +24,8 @@ class CommentService {
         mapper.fromDtoToEntity(commentDto).let { repository.save(it) }
     }
 
-    fun updateComment(id: Long, commentDto: CommentDto?) {
+    fun updateComment(id: Long, commentDto: CommentDto?): String {
+        return if(repository.existsById(id)){
         mapper.fromDtoToEntity(
             CommentDto(
                 id = id,
@@ -36,14 +37,18 @@ class CommentService {
                 dislikes = commentDto?.dislikes,
             )
         ).let { repository.save(it) }
+            "Comment with Id $id updated"
+        }else{
+            "Comment does not exist"
+        }
     }
 
     fun deleteComment(id: Long): String {
         return if(repository.existsById(id)){
             repository.deleteById(id)
-            "Deleted user with id $id"
+            "Deleted Comment with id $id"
         }else{
-            "Id not found"
+            "Comment with id $id not found"
         }
     }
 

@@ -27,7 +27,7 @@ class CommentController {
     }
 
     @PutMapping("/updateComment/{id}")
-    fun updatePost(@RequestBody commentDto: CommentDto?, @PathVariable id: Long) {
+    fun updatePost(@RequestBody commentDto: CommentDto?, @PathVariable id: Long): String {
         return service.updateComment(id, commentDto)
     }
 

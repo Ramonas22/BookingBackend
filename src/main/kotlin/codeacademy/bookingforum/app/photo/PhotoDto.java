@@ -19,7 +19,7 @@ public class PhotoDto {
 
     private String description;
 
-    private String type;
+    private PhotoType type;
 
     private List<Long> userPhotos_id;
 

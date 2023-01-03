@@ -26,12 +26,12 @@ public class PhotoController {
     public List<PhotoDto> getAllPhotos(){return photoService.findAllPhotos();}
 
     @DeleteMapping("/deletePhoto/{id}")
-    public void deletePhoto(@PathVariable(name = "id") Long id){
-        photoService.deletePhoto(id);
+    public String deletePhoto(@PathVariable(name = "id") Long id){
+        return photoService.deletePhoto(id);
     }
 
     @PutMapping("/updatePhoto/{id}")
-    public PhotoDto updatePhoto(@RequestBody PhotoDto photoDto, @PathVariable(name = "id") Long id){
-        return photoService.updatePhoto(photoDto);
+    public String updatePhoto(@RequestBody PhotoDto photoDto, @PathVariable(name = "id") Long id){
+        return photoService.updatePhoto(id, photoDto);
     }
 }

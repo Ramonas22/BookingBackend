@@ -43,9 +43,9 @@ class SellerRatingService {
     fun deleteSellerRatingById(id: Long): String {
         return if (repo.existsById(id)){
             repo.deleteById(id)
-            "Deleted user with $id"
+            "Deleted sellerRating with $id"
         }else{
-            "User does not exist with $id"
+            "SellerRating does not exist with $id"
         }
     }
 }

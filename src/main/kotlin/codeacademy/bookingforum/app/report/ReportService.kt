@@ -23,18 +23,23 @@ class ReportService {
         mapper.fromDtoToEntity(report)?.let { repository.save(it) }
     }
 
-    fun updateReport(id: Long, report: ReportDto?) {
-        mapper.fromDtoToEntity(
-            ReportDto(
-                id = id,
-                reason = report?.reason,
-                description = report?.description,
-                reportDate = report?.reportDate,
-                commentId = report?.commentId,
-                userID = report?.userID,
-                postId = report?.postId,
-            )
-        )?.let { repository.save(it) }
+    fun updateReport(id: Long, report: ReportDto?): String {
+        return if(repository.existsById(id)) {
+            mapper.fromDtoToEntity(
+                ReportDto(
+                    id = id,
+                    reason = report?.reason,
+                    description = report?.description,
+                    reportDate = report?.reportDate,
+                    commentId = report?.commentId,
+                    userID = report?.userID,
+                    postId = report?.postId,
+                )
+            )?.let { repository.save(it) }
+            "Report with Id $id updated"
+        }else{
+            "Report with $id does not exist"
+        }
     }
 
     fun deleteReport(id: Long): String {

@@ -32,8 +32,8 @@ class TopicCategoryController {
     }
 
     @PutMapping("/updateTopicCategory{id}")
-    fun updateTopicCategory(@PathVariable id: Long, @RequestBody topicCategoryDto: TopicCategoryDto?){
-        service.updateTopicCategory(id, topicCategoryDto)
+    fun updateTopicCategory(@PathVariable id: Long, @RequestBody topicCategoryDto: TopicCategoryDto?): String{
+        return service.updateTopicCategory(id, topicCategoryDto)
     }
 
     @DeleteMapping("/deleteTopicCategory{id}")

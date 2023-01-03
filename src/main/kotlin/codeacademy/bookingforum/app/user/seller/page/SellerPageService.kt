@@ -40,18 +40,18 @@ class SellerPageService {
                     dto?.purchasesIds?.map { Purchase(it) },
                 )
             )
-            "User with Id $id updated"
+            "Seller page with Id $id updated"
         }else{
-            "User does not exist"
+            "Seller page with $id does not exist"
         }
     }
 
     fun deleteSellerPageById(id: Long): String {
         return if (repo.existsById(id)){
             repo.deleteById(id)
-            "Deleted user with $id"
+            "Deleted Seller pagte with $id"
         }else{
-            "User does not exist with $id"
+            "Seller page does not exist with $id"
         }
     }
 }

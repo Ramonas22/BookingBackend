@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 class TopicCategoryService {
     @Autowired
     private lateinit var mapper: TopicCategoryMapper
+
     @Autowired
     private lateinit var repository: TopicCategoryRepository
 
@@ -23,20 +24,25 @@ class TopicCategoryService {
         mapper.fromDto(topicCategoryDto)?.let { repository.save(it) }
     }
 
-    fun updateTopicCategory(id: Long, topicCategoryDto: TopicCategoryDto?) {
-        TopicCategory(
-            id,
-            topicCategoryDto?.title,
-            topicCategoryDto?.description,
-            topicCategoryDto?.roles
-        )
+    fun updateTopicCategory(id: Long, topicCategoryDto: TopicCategoryDto?): String {
+        return if (repository.existsById(id)) {
+            TopicCategory(
+                id,
+                topicCategoryDto?.title,
+                topicCategoryDto?.description,
+                topicCategoryDto?.roles
+            ).let { repository.save(it) }
+            "Topic category with id $id updated"
+        } else {
+            "Topic category with id $id not found"
+        }
     }
 
     fun deleteTopicCategory(id: Long): String {
-        return if(repository.existsById(id)){
+        return if (repository.existsById(id)) {
             repository.deleteById(id)
             "Deleted user with id $id"
-        }else{
+        } else {
             "Id not found"
         }
     }

@@ -45,6 +45,16 @@ public class Photo {
     public Photo() {
     }
 
+    public Photo(Long id, String imageUrl, List<String> tags, String description, PhotoType type, List<UserAuth> userPhotos, List<Post> postPhotos) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.tags = tags;
+        this.description = description;
+        this.type = type;
+        this.userPhotos = userPhotos;
+        this.postPhotos = postPhotos;
+    }
+
     public Photo(Long id) {
         this.id = id;
     }

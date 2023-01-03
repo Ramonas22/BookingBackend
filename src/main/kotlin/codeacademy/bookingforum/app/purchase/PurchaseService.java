@@ -32,14 +32,24 @@ public class PurchaseService {
         return purchaseMapper.toDto(purchase);
     }
 
-    public PurchaseDto updateOrder(PurchaseDto purchaseDto){
-        Purchase purchase = purchaseMapper.fromDto(purchaseDto);
-        purchaseRepo.save(purchase);
-        return purchaseMapper.toDto(purchase);
+    public String updateOrder(Long id, PurchaseDto purchaseDto){
+        if(purchaseRepo.existsById(id)) {
+            Purchase purchase = purchaseMapper.fromDto(purchaseDto);
+            purchase.setId(id);
+            purchaseRepo.save(purchase);
+            return "Order with id " + id + " updated";
+        }else {
+            return "Order with id " + id + " not found";
+        }
     }
 
-    public void deleteOrder(Long id){
-        purchaseRepo.deleteById(id);
+    public String deleteOrder(Long id){
+        if(purchaseRepo.existsById(id)) {
+            purchaseRepo.deleteById(id);
+            return "Order with id " + id + " deleted";
+        }else {
+            return "Order with id " + id + " does not exist";
+        }
     }
 
 

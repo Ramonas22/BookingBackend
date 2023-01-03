@@ -27,13 +27,13 @@ public class PostController {
     public List<PostDto> getAllPhotos(){return postService.findAllPosts();}
 
     @DeleteMapping("/deletePost/{id}")
-    public void deletePost(@PathVariable(name = "id") Long id){
-        postService.deletePost(id);
+    public String deletePost(@PathVariable(name = "id") Long id){
+        return postService.deletePost(id);
     }
 
     @PutMapping("/updatePost/{id}")
-    public PostDto updatePhoto(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
-        return postService.updatePost(postDto);
+    public String updatePhoto(@RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
+        return postService.updatePost(id, postDto);
     }
 
 
