@@ -2,10 +2,11 @@ package codeacademy.bookingforum.app.configuration;
 
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
-import codeacademy.bookingforum.app.user.enums.Gender;
+import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,16 +20,16 @@ import java.util.Collections;
 public class SetupDataOnStartup implements
         ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = false;
+    private boolean alreadySetup = false;
 
     @Autowired
-    private UserAuthRepo userRepository;
+    protected UserAuthRepo userRepository;
 
     @Autowired
-    private RoleRepo roleRepository;
+    protected RoleRepo roleRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    protected PasswordEncoder passwordEncoder;
 
     /*
     - "alreadySetup" variable is used because ContextRefreshedEvent may be activated several times.
@@ -37,43 +38,40 @@ public class SetupDataOnStartup implements
     */
     @Override
     @Transactional
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NotNull ContextRefreshedEvent event) {
 
         if (alreadySetup)
             return;
         createRoleIfNotFound("ROLE_ADMIN");
         createRoleIfNotFound("ROLE_USER");
-
-        createUserIfNotFound("Admin", "admin@irenteye.com", "h5H5n7DSV$aT4D^S^9Wq");
+        createUserIfNotFound();
 
         alreadySetup = true;
     }
 
     @Transactional
-    Role createRoleIfNotFound(String name) {
+    void createRoleIfNotFound(String name) {
 
         Role role = roleRepository.findByDisplayName(name);
         if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
         }
-        return role;
     }
 
     @Transactional
-    UserAuth createUserIfNotFound(String name, String email, String password) {
-        UserAuth user = userRepository.findByUsername(name);
+    void createUserIfNotFound() {
+        UserAuth user = userRepository.findByUsername("Admin");
         if (user == null) {
             user = new UserAuth();
-            user.setUsername(name);
-            user.setGender(Gender.UNDEFINED);
-            user.setEmail(email);
-            user.setEnabled(true);
-            user.setPassword(passwordEncoder.encode(password));
-            user.setRoles(Collections.singletonList(roleRepository.findByDisplayName("ROLE_ADMIN")));
+            user.setUsername("Admin");                                                      // Username
+            user.setGender(Gender.UNDEFINED);                                               // Gender
+            user.setEmail("admin@irenteye.com");                                            // Email
+            user.setEnabled(true);                                                          // Is account enabled?
+            user.setPassword(passwordEncoder.encode("h5H5n7DSV$aT4D^S^9Wq"));    // Password
+            user.setRoles(Collections.singletonList(roleRepository.findByDisplayName("ROLE_ADMIN")));   // Role
 
             userRepository.save(user);
         }
-        return user;
     }
 }

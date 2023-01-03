@@ -29,12 +29,13 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        return new ResponseObject(errors, exception, request);
+        return new ResponseObject(errors, HttpStatus.NOT_ACCEPTABLE, request);
     }
+
     @ResponseBody
     @ExceptionHandler(InvalidRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     ResponseObject invalidRequestHandler(InvalidRequestException exception, WebRequest request) {
-        return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), exception, request);
+        return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }

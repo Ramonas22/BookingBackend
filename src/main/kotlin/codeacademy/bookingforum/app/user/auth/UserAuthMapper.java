@@ -2,7 +2,7 @@ package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.purchase.PurchaseDto;
 import codeacademy.bookingforum.app.purchase.PurchaseMapper;
-import codeacademy.bookingforum.app.user.enums.Gender;
+import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.RoleDto;
 import codeacademy.bookingforum.app.user.role.RoleMapper;
 import codeacademy.bookingforum.app.user.seller.page.SellerPageMapper;

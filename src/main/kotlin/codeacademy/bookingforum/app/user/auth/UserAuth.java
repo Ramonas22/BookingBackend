@@ -1,7 +1,7 @@
 package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.purchase.Purchase;
-import codeacademy.bookingforum.app.user.enums.Gender;
+import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import com.fasterxml.jackson.annotation.JsonIgnore;

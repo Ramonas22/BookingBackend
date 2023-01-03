@@ -5,7 +5,10 @@ import codeacademy.bookingforum.app.configuration.ResponseObject;
 import codeacademy.bookingforum.app.configuration.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,35 +34,37 @@ public class UserAuthController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("/register/user")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseObject createUser(@RequestBody @Valid UserAuthDto user, WebRequest request) {
         return userAuthService.createUser(user, request);
     }
+
     @PostMapping("/register/seller")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseObject createSeller(@RequestBody @Valid UserAuthDto seller, WebRequest request) {
         return userAuthService.createSeller(seller, request);
     }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get/id/{id}")
     public UserManagementDto getUserById(@PathVariable("id") Long id) {
         return userAuthService.getUserById(id);
     }
+
+//    @Secured("ROLE_ADMIN")
     @GetMapping("/get/username/{username}")
     public UserManagementDto getUserByUsername(@PathVariable("username") String username) {
         return userAuthService.getUserByUsername(username);
     }
+
+//    @Secured("ROLE_ADMIN")
     @GetMapping("/get/userlist")
     public List<UserAuth> userList() {
         return userAuthService.userList();
     }
+
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserAuthDto loginObject) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginObject.getUsername(), loginObject.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        String jwtToken = jwtUtils.generateJwtToken(userDetails);
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtToken).build();
+    public ResponseEntity<ResponseObject> login(@RequestBody UserLoginDto loginObject, WebRequest request) {
+        return userAuthService.login(loginObject, request);
     }
 }

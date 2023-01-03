@@ -14,13 +14,10 @@ public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
   @Value("${booking.app.jwtSecret}")
-  private String jwtSecret;
+  protected String jwtSecret;
 
   @Value("${booking.app.jwtExpirationMs}")
-  private int jwtExpirationMs;
-
-  @Value("${booking.app.jwtCookieName}")
-  private String jwtCookie;
+  protected int jwtExpirationMs;
 
   public String generateJwtToken(UserDetailsImpl userPrincipal) {
     return generateTokenFromUsername(userPrincipal.getUsername());

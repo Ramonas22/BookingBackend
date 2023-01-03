@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.user.enums;
+package codeacademy.bookingforum.app.enums;
 
 import java.util.Arrays;
 public enum Gender {
