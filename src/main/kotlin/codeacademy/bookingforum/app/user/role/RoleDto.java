@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class RoleDto {
     private Long id;
-    private String displayName;
+    private RoleEnum role;
 }

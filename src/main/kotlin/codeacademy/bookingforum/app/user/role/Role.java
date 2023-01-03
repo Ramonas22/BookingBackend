@@ -13,15 +13,16 @@ public class Role {
     @Column(name = "id")
     private Long id;
     @Column(name = "display_name")
-    private String displayName;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
     @ManyToMany(mappedBy = "roles")
     private List<UserAuth> users;
 
     public Role() {
     }
 
-    public Role(String displayName) {
-        this.displayName = displayName;
+    public Role(RoleEnum role) {
+        this.role = role;
     }
 
     public Long getId() {
@@ -32,12 +33,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public RoleEnum getRole() {
+        return role;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setRole(RoleEnum role) {
+        this.role = role;
     }
 
     public Collection<UserAuth> getUsers() {

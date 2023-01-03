@@ -18,7 +18,7 @@ public class PhotoMapper {
         dto.setImageUrl(entity.getImageUrl());
         dto.setTags(entity.getTags());
         dto.setDescription(entity.getDescription());
-        dto.setType(entity.getType().toString());
+        dto.setType(entity.getType());
 
         List<Long> orderUserList = new ArrayList<>();
         for(UserAuth user: entity.getUserPhotos()){

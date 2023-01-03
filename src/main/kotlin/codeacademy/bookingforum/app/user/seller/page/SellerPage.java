@@ -17,23 +17,23 @@ public class SellerPage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
     @Column(name = "description")
-    private String description;
+    String description;
     @Column(name = "gallery_links")
-    private List<String> galleryLinks;
+    List<String> galleryLinks;
     @Column(name = "price_min")
-    private Double priceMin;
+    Double priceMin;
     @Column(name = "price_max")
-    private Double priceMax;
+    Double priceMax;
     @Column(name = "unavailable_dates")
-    private List<Date> unavailableDates;
+    List<Date> unavailableDates;
     @OneToOne(mappedBy = "sellerPage")
-    private UserAuth userauth;
+    UserAuth userauth;
     @ManyToMany(mappedBy = "users")
-    private List<SellerRating> sellerRatings;
+    List<SellerRating> sellerRatings;
     @ManyToMany(mappedBy = "sellers")
-    private List<Purchase> purchases;
+    List<Purchase> purchases;
 
     public SellerPage(Long id) {
         this.id = id;

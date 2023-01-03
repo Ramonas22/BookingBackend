@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 @Setter
 public class SellerRatingDto {
-    private Long id;
-    private Double rating;
-    private String comment;
-    private LocalDateTime date;
-    private List<Long> userIds;
-    private List<Long> sellerRatingIds;
+    Long id;
+    Double rating;
+    String comment;
+    LocalDateTime date;
+    List<Long> userIds;
+    List<Long> sellerRatingIds;
 }

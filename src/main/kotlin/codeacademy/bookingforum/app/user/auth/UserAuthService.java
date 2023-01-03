@@ -100,7 +100,6 @@ public class UserAuthService {
         } else if (!user.isEnabled()) {
             throw new AccountNotActivatedException("Our Admins have not yet activated your account! Please wait until we approve your request.");
         } else {
-            user.getRoles().forEach(role -> System.out.println(role.getDisplayName()));
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), loginObject.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

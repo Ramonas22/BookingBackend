@@ -4,6 +4,7 @@ import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
 import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
+import codeacademy.bookingforum.app.user.role.RoleEnum;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
@@ -42,17 +43,17 @@ public class SetupDataOnStartup implements
 
         if (alreadySetup)
             return;
-        createRoleIfNotFound("ROLE_ADMIN");
-        createRoleIfNotFound("ROLE_USER");
+        createRoleIfNotFound(RoleEnum.ROLE_ADMIN);
+        createRoleIfNotFound(RoleEnum.ROLE_USER);
         createUserIfNotFound();
 
         alreadySetup = true;
     }
 
     @Transactional
-    void createRoleIfNotFound(String name) {
+    void createRoleIfNotFound(RoleEnum name) {
 
-        Role role = roleRepository.findByDisplayName(name);
+        Role role = roleRepository.findByRole(name);
         if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
@@ -69,7 +70,7 @@ public class SetupDataOnStartup implements
             user.setEmail("admin@irenteye.com");                                            // Email
             user.setEnabled(true);                                                          // Is account enabled?
             user.setPassword(passwordEncoder.encode("h5H5n7DSV$aT4D^S^9Wq"));    // Password
-            user.setRoles(Collections.singletonList(roleRepository.findByDisplayName("ROLE_ADMIN")));   // Role
+            user.setRoles(user.getRoles());   // Role
 
             userRepository.save(user);
         }

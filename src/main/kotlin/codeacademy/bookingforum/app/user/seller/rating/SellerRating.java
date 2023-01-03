@@ -16,26 +16,26 @@ public class SellerRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
     @ManyToMany
     @JoinTable(
             name = "user_seller_rating",
             joinColumns = @JoinColumn(name = "seller_rating_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<UserAuth> users;
+    List<UserAuth> users;
     @ManyToMany
     @JoinTable(
             name = "seller_page_rating",
             joinColumns = @JoinColumn(name = "seller_rating_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<SellerPage> sellerPages;
+    List<SellerPage> sellerPages;
     @Column(name = "rating")
-    private Double rating;
+    Double rating;
     @Column(name = "comment")
-    private String comment;
+    String comment;
     @Column(name = "date")
-    private LocalDateTime date;
+    LocalDateTime date;
 
     public SellerRating(Long id) {
         this.id = id;
