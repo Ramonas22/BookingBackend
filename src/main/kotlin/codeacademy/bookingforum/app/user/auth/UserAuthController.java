@@ -45,7 +45,7 @@ public class UserAuthController {
         return userAuthService.createSeller(seller, request);
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
 //    @Secured("ROLE_ADMIN")
     @GetMapping("/get/id/{id}")
     public UserManagementDto getUserById(@PathVariable("id") Long id) {
