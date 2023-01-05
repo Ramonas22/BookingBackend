@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,8 +29,6 @@ public class UserAuthService {
     UserAuthMapper userAuthMapper;
     @Autowired
     UserAuthRepo userAuthRepo;
-    @Autowired
-    PasswordEncoder passwordEncoder;
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
@@ -62,7 +61,8 @@ public class UserAuthService {
     public ResponseObject createSeller(UserAuthDto seller, WebRequest request) {
         if(ValidateUser(seller)) {
             UserAuth newSeller = userAuthRepo.save(userAuthMapper.fromDtoSeller(seller));
-            ResponseObject response = new ResponseObject(Collections.singletonList("User "+newSeller.getUsername()+" was created successfully."), HttpStatus.CREATED, request);
+            ResponseObject response = new ResponseObject(new ArrayList<>(), HttpStatus.CREATED, request);
+            response.getMessages().add("User "+newSeller.getUsername()+" was created successfully.");
             response.getMessages().add("An admin will review your request within 24 hours. We will send you an email with updates.");
             return response;
         } else {
@@ -111,8 +111,6 @@ public class UserAuthService {
             //return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtToken).build();
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtToken).body(response);
         }
-
-
     }
 
     // Checking if DTO is null, if username or email are taken, if password and repeatPassword match, if username and password formats comply with regex

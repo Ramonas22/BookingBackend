@@ -1,19 +1,11 @@
 package codeacademy.bookingforum.app.user.auth;
 
-import codeacademy.bookingforum.app.configuration.JwtUtils;
 import codeacademy.bookingforum.app.configuration.ResponseObject;
-import codeacademy.bookingforum.app.configuration.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
@@ -26,12 +18,6 @@ import java.util.List;
 public class UserAuthController {
     @Autowired
     UserAuthService userAuthService;
-    @Autowired
-    PasswordEncoder passEncoder;
-    @Autowired
-    JwtUtils jwtUtils;
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @PostMapping("/register/user")
     @ResponseStatus(HttpStatus.CREATED)
@@ -59,6 +45,8 @@ public class UserAuthController {
     }
 
 //    @Secured("ROLE_ADMIN")
+//    @Secured("ROLE_SELLER")
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/get/userlist")
     public List<UserAuth> userList() {
         return userAuthService.userList();

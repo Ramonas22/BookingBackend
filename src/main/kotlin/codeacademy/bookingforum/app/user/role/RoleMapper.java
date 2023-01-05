@@ -7,13 +7,13 @@ public class RoleMapper {
     public RoleDto toDto(Role entity) {
         RoleDto dto = new RoleDto();
         dto.setId(entity.getId());
-        dto.setRole(entity.getRole());
+        dto.setDisplayName(entity.getDisplayName());
         return dto;
     }
     public Role fromDto(RoleDto dto) {
         Role entity = new Role();
         entity.setId(dto.getId());
-        entity.setRole(dto.getRole());
+        entity.setDisplayName(dto.getDisplayName());
         return entity;
     }
 //    public List<RoleDto> toDtoList(List<Role> entities) {

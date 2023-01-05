@@ -5,6 +5,7 @@ import codeacademy.bookingforum.app.purchase.PurchaseMapper;
 import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.RoleDto;
 import codeacademy.bookingforum.app.user.role.RoleMapper;
+import codeacademy.bookingforum.app.user.role.RoleRepo;
 import codeacademy.bookingforum.app.user.seller.page.SellerPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,8 @@ public class UserAuthMapper {
     RoleMapper roleMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    RoleRepo roleRepo;
 
     // Used when logging in with existing user.
     public UserAuthDto toDto(UserAuth entity) {
@@ -51,6 +54,10 @@ public class UserAuthMapper {
         entity.setBiography("Hello, my name is "+dto.getUsername()+"!");
         entity.setEnabled(true);
         entity.setJoinDate(LocalDateTime.now());
+        if(entity.getRoles() == null) {
+            entity.setRoles(new ArrayList<>());
+        }
+        entity.getRoles().add(roleRepo.findByDisplayName("ROLE_USER"));
 
         return entity;
     }
@@ -69,6 +76,10 @@ public class UserAuthMapper {
         entity.setBiography("Hello, my name is "+dto.getUsername()+"!");
         entity.setEnabled(false);
         entity.setJoinDate(LocalDateTime.now());
+        if(entity.getRoles() == null) {
+            entity.setRoles(new ArrayList<>());
+        }
+        entity.getRoles().add(roleRepo.findByDisplayName("ROLE_USER"));
 
         return entity;
     }

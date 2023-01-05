@@ -4,7 +4,6 @@ import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
 import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
-import codeacademy.bookingforum.app.user.role.RoleEnum;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
@@ -43,17 +42,18 @@ public class SetupDataOnStartup implements
 
         if (alreadySetup)
             return;
-        createRoleIfNotFound(RoleEnum.ROLE_ADMIN);
-        createRoleIfNotFound(RoleEnum.ROLE_USER);
-        createUserIfNotFound();
+        createRoleIfNotFound("ROLE_ADMIN");
+        createRoleIfNotFound("ROLE_USER");
+        createRoleIfNotFound("ROLE_SELLER");
+        createAdminIfNotFound();
 
         alreadySetup = true;
     }
 
     @Transactional
-    void createRoleIfNotFound(RoleEnum name) {
+    void createRoleIfNotFound(String name) {
 
-        Role role = roleRepository.findByRole(name);
+        Role role = roleRepository.findByDisplayName(name);
         if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
@@ -61,7 +61,7 @@ public class SetupDataOnStartup implements
     }
 
     @Transactional
-    void createUserIfNotFound() {
+    void createAdminIfNotFound() {
         UserAuth user = userRepository.findByUsername("Admin");
         if (user == null) {
             user = new UserAuth();
@@ -69,8 +69,8 @@ public class SetupDataOnStartup implements
             user.setGender(Gender.UNDEFINED);                                               // Gender
             user.setEmail("admin@irenteye.com");                                            // Email
             user.setEnabled(true);                                                          // Is account enabled?
-            user.setPassword(passwordEncoder.encode("h5H5n7DSV$aT4D^S^9Wq"));    // Password
-            user.setRoles(user.getRoles());   // Role
+            user.setPassword(passwordEncoder.encode("Admin"));                   // Password
+            user.setRoles(Collections.singletonList(roleRepository.findByDisplayName("ROLE_ADMIN")));   // Role
 
             userRepository.save(user);
         }

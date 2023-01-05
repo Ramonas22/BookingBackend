@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 data class Comment(
         @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id")
     val id: Long? = null,
 
         @Column(name = "date_commented")

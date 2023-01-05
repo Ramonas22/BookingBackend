@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -53,12 +53,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+//        http.cors().and().csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeRequests().requestMatchers("/api/user/login", "/api/user/register/user").permitAll()
+//                .requestMatchers("/api/**").permitAll()
+//                .anyRequest().authenticated();
+
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().requestMatchers("/api/user/login", "/api/user/register/user").permitAll()
-                .requestMatchers("/api/**").permitAll()
-                .anyRequest().authenticated();
+                        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                        .sessionManagement().sessionCreationPolicy((SessionCreationPolicy.STATELESS))
+                        .and().authorizeHttpRequests().anyRequest().permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
