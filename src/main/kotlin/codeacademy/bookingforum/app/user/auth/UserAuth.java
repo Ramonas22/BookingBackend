@@ -1,5 +1,6 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.image.Image;
 import codeacademy.bookingforum.app.purchase.Purchase;
 import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
@@ -9,7 +10,6 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "user_auth")
@@ -49,6 +49,9 @@ public class UserAuth {
     @OneToOne
     @JoinColumn(name = "seller_id")
     private SellerPage sellerPage;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Image> images;
 
 
 

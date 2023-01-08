@@ -1,7 +1,9 @@
 package codeacademy.bookingforum.app.post;
 
-import codeacademy.bookingforum.app.photo.Photo;
+import codeacademy.bookingforum.app.image.Image;
+import codeacademy.bookingforum.app.image.ImageRepo;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,10 +11,16 @@ import java.util.List;
 
 @Service
 public class PostMapper {
+    @Autowired
+    ImageRepo imageRepo;
 
     public PostDto toDto(Post entity) {
         if (entity == null) {
             return null;
+        }
+        List<String> imageIds = new ArrayList<>();
+        for (Image image : entity.getImages()) {
+            imageIds.add(image.getId());
         }
 
         return new PostDto(
@@ -20,7 +28,7 @@ public class PostMapper {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getDatePosted(),
-                entity.getPhotoPost().stream().map(photo -> photo.getId()).toList(),
+                imageIds,
                 entity.getUser().getId()
                 );
 
@@ -38,7 +46,7 @@ public class PostMapper {
                 dto.getTitle(),
                 dto.getContent(),
                 dto.getDatePosted(),
-                dto.getPhotoPost_id().stream().map(Photo::new).toList(),
+                dto.getImages().stream().map(Image::new).toList(),
                 user
         );
     }

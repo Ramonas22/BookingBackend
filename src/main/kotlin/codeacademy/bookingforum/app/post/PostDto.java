@@ -19,16 +19,16 @@ public class PostDto {
 
     private Date datePosted;
 
-    private List<Long> photoPost_id;
+    private List<String> images;
 
     private Long user_id;
 
-    public PostDto(Long id, String title, String content, Date datePosted, List<Long> photoPost_id, Long user_id) {
+    public PostDto(Long id, String title, String content, Date datePosted, List<String> images, Long user_id) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.datePosted = datePosted;
-        this.photoPost_id = photoPost_id;
+        this.images = images;
         this.user_id = user_id;
     }
 }

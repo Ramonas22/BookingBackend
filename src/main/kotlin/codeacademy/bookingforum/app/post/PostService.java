@@ -1,6 +1,6 @@
 package codeacademy.bookingforum.app.post;
 
-import codeacademy.bookingforum.app.photo.Photo;
+import codeacademy.bookingforum.app.image.Image;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class PostService {
                             postDto.getTitle(),
                             postDto.getContent(),
                             postDto.getDatePosted(),
-                            postDto.getPhotoPost_id().stream().map( ids -> new Photo(ids)).toList(),
+                            postDto.getImages().stream().map(ids -> new Image(ids)).toList(),
                             new UserAuth(postDto.getUser_id())
                     ));
             return "Post with id " + id + " updated";
