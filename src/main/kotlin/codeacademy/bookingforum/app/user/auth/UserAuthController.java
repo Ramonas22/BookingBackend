@@ -46,7 +46,7 @@ public class UserAuthController {
 
 //    @Secured("ROLE_ADMIN")
 //    @Secured("ROLE_SELLER")
-    @PreAuthorize("hasRole('SELLER')")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
     @GetMapping("/get/userlist")
     public List<UserAuth> userList() {
         return userAuthService.userList();

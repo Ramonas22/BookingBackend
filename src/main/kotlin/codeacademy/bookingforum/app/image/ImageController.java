@@ -1,12 +1,19 @@
 package codeacademy.bookingforum.app.image;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -19,6 +26,16 @@ public class ImageController {
     @PostMapping("/upload")
     public ResponseObject file(@RequestParam("file") MultipartFile file, @RequestParam("body") String imageString, WebRequest request) {
         return imageService.upload(file, imageString, request);
+    }
+
+    @GetMapping(value = "/profile", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] profilePicture(@RequestBody ImageDto imageDto) throws IOException {
+
+        //InputStream in = getClass().getResourceAsStream(imageDto.getLocation()+imageDto.getUsername()+imageDto.getName());
+
+        System.out.println(imageDto.getLocation()+imageDto.getUsername());
+
+        return Files.readAllBytes(Paths.get(imageDto.getLocation()+imageDto.getUsername()+"/"+imageDto.getName()));
     }
 
     @GetMapping("/getPhoto/{id}")

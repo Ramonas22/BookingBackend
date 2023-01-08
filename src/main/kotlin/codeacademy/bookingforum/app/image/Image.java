@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class Image {
     private String name;
     @Column(name = "data")
     @Lob
-    private byte[] data;
+    private String location;
     @Column(name = "extension")
     private String extension;
     @Column(name = "tags")
@@ -49,9 +48,9 @@ public class Image {
         this.id = id;
     }
 
-    public Image(String name, byte[] data, List<String> tags, String description, ImageType type, UserAuth user, Post post, String extension) {
+    public Image(String name, String location, List<String> tags, String description, ImageType type, UserAuth user, Post post, String extension) {
         this.name = name;
-        this.data = data;
+        this.location = location;
         this.tags = tags;
         this.description = description;
         this.type = type;

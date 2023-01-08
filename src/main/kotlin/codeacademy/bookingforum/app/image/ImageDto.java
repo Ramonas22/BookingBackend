@@ -12,5 +12,7 @@ public class ImageDto {
     private List<String> tags;
     private String description;
     private String type;
+    private String location;
+    private String name;
 
 }
