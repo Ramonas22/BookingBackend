@@ -1,13 +1,16 @@
 package codeacademy.bookingforum.app.image;
 
+import codeacademy.bookingforum.app.ecxeption.image.DirectoryCreationException;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,32 +18,36 @@ import java.util.Objects;
 public class FileStorageService {
     @Autowired
     ImageRepo imageRepo;
-    private String uploadDir = "/uploads/";
+    @Autowired
+    ImageMapper imageMapper;
 
-    void createDirectory(UserAuth user) {
-        if (!new File(uploadDir+user.getUsername()).exists()) {
-            if (!new File((uploadDir+user.getUsername())).mkdirs()); {
-                System.out.println("File was not created!!!!!!");
+    void createDirectoryIfNotFound(String path) {
+        if (!new File(path).exists()) {
+            if (!new File(path).mkdirs()) {
+                throw new DirectoryCreationException("Failed to create directory for your images. Please contact an Admin.");
             }
         }
-        uploadDir = uploadDir + user.getUsername();
     }
 
-    public void storeUserImage(MultipartFile file, List<String> tags, String description, UserAuth user) throws IOException {
+    public void storeUserAvatar(MultipartFile file, ImageDto imageDto, UserAuth user) throws IOException {
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        createDirectory(user);
-        Image image = new Image(fileName, uploadDir, tags, description, ImageType.USER_AVATAR, user, null, file.getContentType());
+        String path = "/var/www/irenteye.com/html/uploads/"+user.getUsername().trim();
+        createDirectoryIfNotFound(path);
+
+        File newFile = new File(path+"/"+fileName);
         Image oldImage = imageRepo.findByType(ImageType.USER_AVATAR);
         if (oldImage != null) {
-            imageRepo.delete(oldImage);
+            Image newImage = imageMapper.fromDto(imageDto);
+            newImage.setId(oldImage.getId());
+            newImage.setType(ImageType.USER_AVATAR);
+            imageRepo.save(newImage);
+            file.transferTo(newFile.getAbsoluteFile());
+        } else {
+            file.transferTo(newFile.getAbsoluteFile());
+            Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.USER_AVATAR, user, null, file.getContentType());
+            imageRepo.save(image);
         }
-        File newFile = new File(uploadDir+"/"+fileName);
-        file.transferTo(newFile.getAbsoluteFile());
-
-        System.out.println(newFile.getAbsolutePath());
-
-        imageRepo.save(image);
     }
 //    public Image storePostImage(MultipartFile file, List<String> tags, String description, UserAuth user) throws IOException {
 //        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));

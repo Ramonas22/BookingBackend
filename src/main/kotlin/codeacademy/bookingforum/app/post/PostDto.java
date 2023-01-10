@@ -19,11 +19,11 @@ public class PostDto {
 
     private Date datePosted;
 
-    private List<String> images;
+    private List<Long> images;
 
     private Long user_id;
 
-    public PostDto(Long id, String title, String content, Date datePosted, List<String> images, Long user_id) {
+    public PostDto(Long id, String title, String content, Date datePosted, List<Long> images, Long user_id) {
         this.id = id;
         this.title = title;
         this.content = content;

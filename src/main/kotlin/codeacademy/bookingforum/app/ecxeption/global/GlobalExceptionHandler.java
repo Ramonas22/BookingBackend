@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE) // 406
     ResponseObject handleMethodArgumentNotValid(MethodArgumentNotValidException exception, WebRequest request) {
         List<String> errors = exception.getBindingResult()
                 .getFieldErrors()
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(InvalidRequestException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
     ResponseObject invalidRequestHandler(InvalidRequestException exception, WebRequest request) {
         return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }

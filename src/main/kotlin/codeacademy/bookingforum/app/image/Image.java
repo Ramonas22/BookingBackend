@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 
@@ -19,10 +18,8 @@ import java.util.List;
 @Setter
 public class Image {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(columnDefinition = "varchar(255)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "data")
@@ -44,7 +41,7 @@ public class Image {
     @JoinColumn(name = "post_image")
     private Post post;
 
-    public Image(String id) {
+    public Image(Long id) {
         this.id = id;
     }
 

@@ -1,14 +1,12 @@
 package codeacademy.bookingforum.app.user.seller.page
 
+import codeacademy.bookingforum.app.configuration.ResponseObject
+import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.context.request.WebRequest
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/sellerPage")
@@ -41,4 +39,9 @@ class SellerPageController {
         return service.deleteSellerPageById(id)
     }
 
+    @PostMapping("/register/seller")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createSeller(@RequestBody seller: @Valid UserAuthDto?, request: WebRequest?): ResponseObject? {
+        return service.createSeller(seller, request)
+    }
 }

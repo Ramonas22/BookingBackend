@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.user.auth;
+package codeacademy.bookingforum.app.user.auth.dto;
 
 import codeacademy.bookingforum.app.purchase.PurchaseDto;
 import codeacademy.bookingforum.app.user.role.RoleDto;

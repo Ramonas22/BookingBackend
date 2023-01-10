@@ -1,6 +1,10 @@
 package codeacademy.bookingforum.app.user.auth;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
+import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto;
+import codeacademy.bookingforum.app.user.auth.dto.UserDetailsDto;
+import codeacademy.bookingforum.app.user.auth.dto.UserLoginDto;
+import codeacademy.bookingforum.app.user.auth.dto.UserManagementDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,44 +20,49 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:3000","http://127.0.0.1:3000"})
 @RequestMapping("/api/user")
 public class UserAuthController {
+    // ### Services ###
     @Autowired
     UserAuthService userAuthService;
 
-    @PostMapping("/register/user")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseObject createUser(@RequestBody @Valid UserAuthDto user, WebRequest request) {
-        return userAuthService.createUser(user, request);
+    // ### Endpoints ###
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED) // Returns status 201, if successful
+    public ResponseObject register(@RequestBody @Valid UserAuthDto newUser, WebRequest request) {
+        return userAuthService.register(newUser, request);
     }
 
-    @PostMapping("/register/seller")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseObject createSeller(@RequestBody @Valid UserAuthDto seller, WebRequest request) {
-        return userAuthService.createSeller(seller, request);
+    @PostMapping("/login")
+    public ResponseEntity<UserDetailsDto> login(@RequestBody @Valid UserLoginDto loginObject) {
+        return userAuthService.login(loginObject);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-//    @Secured("ROLE_ADMIN")
-    @GetMapping("/get/id/{id}")
-    public UserManagementDto getUserById(@PathVariable("id") Long id) {
-        return userAuthService.getUserById(id);
+    @GetMapping("/get/userlist")
+    public List<UserManagementDto> userList() {
+        return userAuthService.userList();
     }
 
-//    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("/get/username/{username}")
     public UserManagementDto getUserByUsername(@PathVariable("username") String username) {
         return userAuthService.getUserByUsername(username);
     }
 
-//    @Secured("ROLE_ADMIN")
-//    @Secured("ROLE_SELLER")
-    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
-    @GetMapping("/get/userlist")
-    public List<UserAuth> userList() {
-        return userAuthService.userList();
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/get/id/{id}")
+    public UserManagementDto getUserById(@PathVariable("id") Long id) {
+        return userAuthService.getUserById(id);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ResponseObject> login(@RequestBody UserLoginDto loginObject, WebRequest request) {
-        return userAuthService.login(loginObject, request);
+    @Secured({"ROLE_USER","ROLE_SELLER","ROLE_ADMIN"})
+    //@PreAuthorize("#username == authentication.principal.username")
+    @PutMapping("/update/{username}")
+    public ResponseObject update(@PathVariable("username") String username, @RequestBody UserDetailsDto dto, WebRequest request) {
+        return userAuthService.update(username, dto, request);
+    }
+
+    @GetMapping("/details/{requested}/{requesting}")
+    public UserDetailsDto details(@PathVariable("requested") String requestedUser, @PathVariable("requesting") String requestingUser) {
+        return userAuthService.details(requestedUser, requestingUser);
     }
 }

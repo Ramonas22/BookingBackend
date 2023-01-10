@@ -3,6 +3,9 @@ package codeacademy.bookingforum.app.user.auth;
 import codeacademy.bookingforum.app.purchase.PurchaseDto;
 import codeacademy.bookingforum.app.purchase.PurchaseMapper;
 import codeacademy.bookingforum.app.enums.Gender;
+import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto;
+import codeacademy.bookingforum.app.user.auth.dto.UserDetailsDto;
+import codeacademy.bookingforum.app.user.auth.dto.UserManagementDto;
 import codeacademy.bookingforum.app.user.role.RoleDto;
 import codeacademy.bookingforum.app.user.role.RoleMapper;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
@@ -40,8 +43,8 @@ public class UserAuthMapper {
         return dto;
     }
 
-    // Used when registering new user.
-    public UserAuth fromDto(UserAuthDto dto) {
+    // Used when registering regular new user.
+    public UserAuth fromDtoUser(UserAuthDto dto) {
         if (dto == null) {
             return null;
         }
@@ -79,7 +82,7 @@ public class UserAuthMapper {
         if(entity.getRoles() == null) {
             entity.setRoles(new ArrayList<>());
         }
-        entity.getRoles().add(roleRepo.findByDisplayName("ROLE_USER"));
+        entity.getRoles().add(roleRepo.findByDisplayName("ROLE_SELLER"));
 
         return entity;
     }
@@ -105,4 +108,14 @@ public class UserAuthMapper {
                 entity.getJoinDate(),
                 sellerPageMapper.toDto(entity.getSellerPage()));
     }
+
+    // Used to load user profile (when that user is the owner)
+    public UserDetailsDto toDtoDetails(UserAuth entity) {
+        if (entity == null) {
+            return null;
+        }
+        return new UserDetailsDto(entity.getId(), entity.getUsername(), null, entity.getEmail(), entity.getBiography(), entity.getGender().toString());
+    }
+
+
 }

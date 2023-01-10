@@ -1,7 +1,6 @@
 package codeacademy.bookingforum.app.image;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
-import codeacademy.bookingforum.app.ecxeption.global.InvalidRequestException;
 import codeacademy.bookingforum.app.ecxeption.image.ImageNotFoundException;
 import codeacademy.bookingforum.app.ecxeption.image.UnsupportedImageFormatException;
 import codeacademy.bookingforum.app.ecxeption.user.UserNotFoundException;
@@ -11,16 +10,11 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ImageService {
@@ -52,7 +46,7 @@ public class ImageService {
             throw new UserNotFoundException("File owner not defined.");
         }
         try {
-            storageService.storeUserImage(file, imageDto.getTags(), imageDto.getDescription(), user);
+            storageService.storeUserAvatar(file, imageDto, user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

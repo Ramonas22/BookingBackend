@@ -18,7 +18,7 @@ public class PostMapper {
         if (entity == null) {
             return null;
         }
-        List<String> imageIds = new ArrayList<>();
+        List<Long> imageIds = new ArrayList<>();
         for (Image image : entity.getImages()) {
             imageIds.add(image.getId());
         }

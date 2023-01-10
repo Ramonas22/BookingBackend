@@ -1,4 +1,4 @@
-package codeacademy.bookingforum.app.user.auth;
+package codeacademy.bookingforum.app.user.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

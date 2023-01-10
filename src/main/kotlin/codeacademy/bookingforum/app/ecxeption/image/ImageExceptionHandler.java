@@ -25,4 +25,11 @@ public class ImageExceptionHandler {
     ResponseObject handleUnsupportedImageFormat(UnsupportedImageFormatException exception, WebRequest request) {
         return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.NOT_ACCEPTABLE, request);
     }
+
+    @ResponseBody
+    @ExceptionHandler(DirectoryCreationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    ResponseObject handleDirectoryCreation(DirectoryCreationException exception, WebRequest request) {
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 }

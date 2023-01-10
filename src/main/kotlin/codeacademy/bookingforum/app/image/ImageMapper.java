@@ -31,7 +31,7 @@ public class ImageMapper {
         Image entity = new Image();
         entity.setTags(dto.getTags());
         entity.setDescription(dto.getDescription());
-        entity.setType(ImageType.valueOf(dto.getType()));
+        entity.setType(ImageType.parse(dto.getType()));
         entity.setUser(userAuthRepo.findByUsername(dto.getUsername().trim()));
 
         return entity;
