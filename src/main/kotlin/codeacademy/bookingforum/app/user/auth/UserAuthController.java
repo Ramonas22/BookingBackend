@@ -55,8 +55,8 @@ public class UserAuthController {
     }
 
     @Secured({"ROLE_USER","ROLE_SELLER","ROLE_ADMIN"})
-    //@PreAuthorize("#username == authentication.principal.username")
     @PutMapping("/update/{username}")
+    @ResponseStatus(HttpStatus.ACCEPTED) // Returns status 202, if successful
     public ResponseObject update(@PathVariable("username") String username, @RequestBody UserDetailsDto dto, WebRequest request) {
         return userAuthService.update(username, dto, request);
     }

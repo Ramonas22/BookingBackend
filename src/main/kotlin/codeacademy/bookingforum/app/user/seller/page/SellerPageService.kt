@@ -27,6 +27,41 @@ class SellerPageService {
     private lateinit var userAuthRepo: UserAuthRepo
     @Autowired
     private lateinit var userAuthMapper: UserAuthMapper
+
+    fun register(user: UserAuthDto?, request: WebRequest?): ResponseObject? {
+        return if (validateUser(user)) {
+            val newSeller: UserAuth = userAuthRepo.save(userAuthMapper.fromDtoSeller(user))
+            val response = ResponseObject(ArrayList(), HttpStatus.CREATED, request)
+            response.messages.add("User " + newSeller.username + " was created successfully.")
+            response.messages.add("An admin will review your request within 24 hours. We will send you an email with updates.")
+            response
+        } else {
+            throw InvalidRequestException("Invalid request. Something went wrong.")
+        }
+    }
+
+    fun getAll(): List<Long> {
+        return userAuthRepo.sellerIds
+    }
+
+//    fun getPreview(): Map<Long, String> {
+//        val sellers: List<Long> = userAuthRepo.sellerIds
+//        sellers.forEach()
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     fun getSellerPageById(id: Long): SellerPageDto? {
         return repo.findByIdOrNull(id).let { mapper.toDto(it) }
     }
@@ -45,7 +80,7 @@ class SellerPageService {
                 SellerPage(
                     id,
                     dto?.description,
-                    dto?.galaleryLinks,
+                    dto?.galleryLinks,
                     dto?.priceMin,
                     dto?.priceMax,
                     dto?.unavailableDate,
@@ -63,7 +98,7 @@ class SellerPageService {
     fun deleteSellerPageById(id: Long): String {
         return if (repo.existsById(id)){
             repo.deleteById(id)
-            "Deleted Seller pagte with $id"
+            "Deleted Seller page with $id"
         }else{
             "Seller page does not exist with $id"
         }
@@ -72,17 +107,7 @@ class SellerPageService {
 
 
 
-    fun createSeller(seller: UserAuthDto?, request: WebRequest?): ResponseObject? {
-        return if (validateUser(seller)) {
-            val newSeller: UserAuth = userAuthRepo.save<UserAuth>(userAuthMapper.fromDtoSeller(seller))
-            val response = ResponseObject(ArrayList(), HttpStatus.CREATED, request)
-            response.messages.add("User " + newSeller.username + " was created successfully.")
-            response.messages.add("An admin will review your request within 24 hours. We will send you an email with updates.")
-            response
-        } else {
-            throw InvalidRequestException("Invalid request. Something went wrong.")
-        }
-    }
+
 
     // ### Validations and checks ###
 

@@ -34,8 +34,8 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(InvalidRequestException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     ResponseObject invalidRequestHandler(InvalidRequestException exception, WebRequest request) {
-        return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), HttpStatus.BAD_REQUEST, request);
     }
 }

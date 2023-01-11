@@ -49,6 +49,19 @@ public class FileStorageService {
             imageRepo.save(image);
         }
     }
+
+    public void storeSellerGallery(MultipartFile file, ImageDto imageDto, UserAuth user) throws IOException {
+
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        String path = "/var/www/irenteye.com/html/uploads/"+user.getUsername().trim();
+        createDirectoryIfNotFound(path);
+
+        File newFile = new File(path+"/"+fileName);
+        file.transferTo(newFile.getAbsoluteFile());
+
+        Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.USER_AVATAR, user, null, file.getContentType());
+        imageRepo.save(image);
+    }
 //    public Image storePostImage(MultipartFile file, List<String> tags, String description, UserAuth user) throws IOException {
 //        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 //        Image image = new Image(fileName, file.getBytes(), tags, description, ImageType.FORUM, user, null, file.getContentType());

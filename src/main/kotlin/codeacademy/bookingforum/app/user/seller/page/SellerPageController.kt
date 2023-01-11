@@ -9,10 +9,31 @@ import org.springframework.web.context.request.WebRequest
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/sellerPage")
+@RequestMapping("/api/seller")
 class SellerPageController {
     @Autowired
     private lateinit var service: SellerPageService
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun register(@RequestBody @Valid user: UserAuthDto?, request: WebRequest?): ResponseObject? {
+        return service.register(user, request)
+    }
+
+    @GetMapping("/get/all")
+    fun getAll(): List<Long> {
+        return service.getAll()
+    }
+
+//    @GetMapping("/get/preview")
+//    fun getPreview(): Map<Long, String> {
+//        return service.getPreview();
+//    }
+
+
+
+
+
 
     @GetMapping("/getSellerPageById/{id}")
     fun getSellerPageById(@PathVariable id: Long): SellerPageDto? {
@@ -37,11 +58,5 @@ class SellerPageController {
     @DeleteMapping("/deleteSellerPageById/{id}")
     fun deleteSellerPageById(@PathVariable id: Long): String {
         return service.deleteSellerPageById(id)
-    }
-
-    @PostMapping("/register/seller")
-    @ResponseStatus(HttpStatus.CREATED)
-    fun createSeller(@RequestBody seller: @Valid UserAuthDto?, request: WebRequest?): ResponseObject? {
-        return service.createSeller(seller, request)
     }
 }

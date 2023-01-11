@@ -16,7 +16,7 @@ public class SellerPageDto {
 
     String description;
 
-    List<String> galaleryLinks;
+    List<String> galleryLinks;
 
     Double priceMin;
 

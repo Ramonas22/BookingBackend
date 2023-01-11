@@ -22,8 +22,7 @@ public class Image {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "data")
-    @Lob
+    @Column(name = "location")
     private String location;
     @Column(name = "extension")
     private String extension;

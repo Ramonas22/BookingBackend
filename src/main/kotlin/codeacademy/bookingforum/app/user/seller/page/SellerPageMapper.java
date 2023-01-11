@@ -36,7 +36,7 @@ public class SellerPageMapper {
             return new SellerPage(
                     dto.getId(),
                     dto.getDescription(),
-                    dto.getGalaleryLinks(),
+                    dto.getGalleryLinks(),
                     dto.getPriceMin(),
                     dto.getPriceMax(),
                     dto.getUnavailableDate(),

@@ -11,7 +11,6 @@ import codeacademy.bookingforum.app.user.auth.dto.UserDetailsDto;
 import codeacademy.bookingforum.app.user.auth.dto.UserLoginDto;
 import codeacademy.bookingforum.app.user.auth.dto.UserManagementDto;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -127,6 +126,11 @@ public class UserAuthService {
         if (username == null || dto == null) {
             throw new UserNotFoundException("No user provided!");
         }
+        if (dto.getPassword() != null) { // If a user provided a new password to be updated, validate it against a pre-defined regex pattern
+            if (validateRegex(dto.getPassword(), PASSWORD_PATTERN)) {
+                throw new PasswordFormatException("Password does not match regex."); // More messages are added in UserExceptionHandler.class #passwordFormatHandler
+            }
+        }
 
         UserAuth user = userAuthRepo.findByUsername(username);
         if (user == null || !user.getId().equals(dto.getId()) || !user.getUsername().equals(dto.getUsername())) {
@@ -138,7 +142,7 @@ public class UserAuthService {
         user.setGender(Gender.parse(dto.getGender()));
         userAuthRepo.save(user);
 
-        return new ResponseObject(Collections.singletonList("User successfully updated!"), HttpStatus.CREATED, request);
+        return new ResponseObject(Collections.singletonList("User successfully updated!"), HttpStatus.ACCEPTED, request);
     }
 
     // @ Get user's details, to display in their account profile

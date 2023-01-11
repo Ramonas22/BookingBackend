@@ -15,13 +15,13 @@ public class AuthEntryPointExceptionHandler implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.AuthenticationException exception) throws IOException {
         // 401 HTTP Response
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You need to be logged in to do that.");
     }
 
     @ExceptionHandler (value = {AccessDeniedException.class})
     public void commence(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException {
         // 403 HTTP Response
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Authorization Failed: " + exception.getMessage());
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "You don't have permission to do that: "+exception.getMessage());
     }
 
     @ExceptionHandler (value = {Exception.class})

@@ -20,27 +20,40 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
-@RequestMapping("/photo")
+@RequestMapping("/api/image")
 public class ImageController {
 
     @Autowired
     ImageService imageService;
 
-    @Secured({"ROLE_ADMIN","ROLE_SELLER"})
-    @PostMapping("/upload")
+    @Secured({"ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER"})
+    @PostMapping("/avatar")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseObject file(@RequestParam("file") MultipartFile file, @RequestParam("body") String imageString, WebRequest request) {
         return imageService.upload(file, imageString, request);
     }
+
+    @Secured({"ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER"})
+    @PostMapping("/gallery")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseObject galleryImage(@RequestParam("file") MultipartFile file, @RequestParam("body") String imageString, WebRequest request) {
+        return imageService.galleryImage(file, imageString, request);
+    }
+
+    @GetMapping(value = "/get/{username}/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getByLocation(@PathVariable("username") String username, @PathVariable("filename") String filename) throws IOException {
+        return Files.readAllBytes(Paths.get("/var/www/irenteye.com/html/uploads/"+username+"/"+filename));
+    }
+
 
     @GetMapping(value = "/profile", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] profilePicture(@RequestBody ImageDto imageDto) throws IOException {
 
         //InputStream in = getClass().getResourceAsStream(imageDto.getLocation()+imageDto.getUsername()+imageDto.getName());
 
-        System.out.println(imageDto.getLocation()+imageDto.getUsername());
+        System.out.println(imageDto.getLocation());
 
-        return Files.readAllBytes(Paths.get(imageDto.getLocation()+imageDto.getUsername()+"/"+imageDto.getName()));
+        return Files.readAllBytes(Paths.get(imageDto.getLocation()));
     }
 
     @GetMapping("/getPhoto/{id}")

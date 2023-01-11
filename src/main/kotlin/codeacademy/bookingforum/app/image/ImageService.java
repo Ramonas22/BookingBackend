@@ -53,6 +53,22 @@ public class ImageService {
         return new ResponseObject(Collections.singletonList("File uploaded successfully."), HttpStatus.CREATED, request);
     }
 
+    public ResponseObject galleryImage(MultipartFile file, String imageString, WebRequest request) {
+        Gson gson = new Gson();
+        ImageDto imageDto = gson.fromJson(imageString, ImageDto.class);
+
+        UserAuth user = userAuthRepo.findByUsername(imageDto.getUsername());
+        if (user == null) {
+            throw new UserNotFoundException("File owner not defined.");
+        }
+        try {
+            storageService.storeSellerGallery(file, imageDto, user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseObject(Collections.singletonList("File uploaded successfully."), HttpStatus.CREATED, request);
+    }
+
 
 //    public ImageDto upload(ImageDto imageDto) {
 //
