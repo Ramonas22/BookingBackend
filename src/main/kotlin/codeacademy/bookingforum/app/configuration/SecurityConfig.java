@@ -55,8 +55,10 @@ public class SecurityConfig {
 
         http.cors().and().csrf().disable()
                         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        .and().authorizeHttpRequests().anyRequest().permitAll();
+                        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // Enables connections over SSL
+//                .requiresChannel((channel -> channel.anyRequest().requiresSecure()))
+                .authorizeHttpRequests().anyRequest().permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

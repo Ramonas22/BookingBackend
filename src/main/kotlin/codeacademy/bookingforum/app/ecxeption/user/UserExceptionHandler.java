@@ -61,6 +61,13 @@ public class UserExceptionHandler {
     @ExceptionHandler(AccountNotActivatedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN) // 403
     ResponseObject handleAccountNotActivated(AccountNotActivatedException exception, WebRequest request) {
-        return new ResponseObject(Collections.singletonList(exception.getMessage()),HttpStatus.FORBIDDEN,request);
+        return new ResponseObject(Collections.singletonList(exception.getMessage()),HttpStatus.FORBIDDEN, request);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AccountAlreadyActivatedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT) // 409
+    ResponseObject handleAccountAlreadyActivated(AccountAlreadyActivatedException exception, WebRequest request) {
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.CONFLICT, request);
     }
 }

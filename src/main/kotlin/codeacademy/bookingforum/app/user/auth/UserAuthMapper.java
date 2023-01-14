@@ -106,7 +106,7 @@ public class UserAuthMapper {
                 purchaseDtos,
                 entity.isEnabled(),
                 entity.getJoinDate(),
-                sellerPageMapper.toDto(entity.getSellerPage()));
+                sellerPageMapper.toDtoList(entity.getSellerPage()));
     }
 
     // Used to load user profile (when that user is the owner)

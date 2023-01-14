@@ -59,7 +59,7 @@ public class FileStorageService {
         File newFile = new File(path+"/"+fileName);
         file.transferTo(newFile.getAbsoluteFile());
 
-        Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.USER_AVATAR, user, null, file.getContentType());
+        Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.SELLER_GALLERY, user, null, file.getContentType());
         imageRepo.save(image);
     }
 //    public Image storePostImage(MultipartFile file, List<String> tags, String description, UserAuth user) throws IOException {

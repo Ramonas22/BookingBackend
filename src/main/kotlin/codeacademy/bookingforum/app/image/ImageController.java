@@ -1,8 +1,6 @@
 package codeacademy.bookingforum.app.image;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
-import jakarta.annotation.security.RolesAllowed;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,11 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -48,11 +43,6 @@ public class ImageController {
 
     @GetMapping(value = "/profile", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] profilePicture(@RequestBody ImageDto imageDto) throws IOException {
-
-        //InputStream in = getClass().getResourceAsStream(imageDto.getLocation()+imageDto.getUsername()+imageDto.getName());
-
-        System.out.println(imageDto.getLocation());
-
         return Files.readAllBytes(Paths.get(imageDto.getLocation()));
     }
 
@@ -69,6 +59,8 @@ public class ImageController {
         return imageService.deletePhoto(id);
     }
 
-
-
+    @GetMapping(value = "/preview/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] randomGalleryPicture(@PathVariable("id") Long id) throws IOException {
+        return imageService.randomGalleryPicture(id);
+    }
 }

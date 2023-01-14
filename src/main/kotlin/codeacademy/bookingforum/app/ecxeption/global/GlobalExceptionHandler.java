@@ -36,6 +36,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     ResponseObject invalidRequestHandler(InvalidRequestException exception, WebRequest request) {
-        return new ResponseObject(new ArrayList<>(Collections.singletonList(exception.getMessage())), HttpStatus.BAD_REQUEST, request);
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UnsatisfiedExpectationException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE) // 406
+    ResponseObject unsatisfiedExpectationHandler(UnsatisfiedExpectationException exception, WebRequest request) {
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.NOT_ACCEPTABLE, request);
     }
 }

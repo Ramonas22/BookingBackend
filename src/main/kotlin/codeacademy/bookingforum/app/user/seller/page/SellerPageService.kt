@@ -2,6 +2,8 @@ package codeacademy.bookingforum.app.user.seller.page
 
 import codeacademy.bookingforum.app.configuration.ResponseObject
 import codeacademy.bookingforum.app.ecxeption.global.InvalidRequestException
+import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException
+import codeacademy.bookingforum.app.ecxeption.sellerPage.PageNotFoundException
 import codeacademy.bookingforum.app.ecxeption.user.*
 import codeacademy.bookingforum.app.purchase.Purchase
 import codeacademy.bookingforum.app.user.auth.UserAuth
@@ -13,6 +15,8 @@ import codeacademy.bookingforum.app.user.seller.rating.SellerRating
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.WebRequest
 import java.util.regex.Pattern
@@ -20,14 +24,15 @@ import java.util.regex.Pattern
 @Service
 class SellerPageService {
     @Autowired
-    private lateinit var mapper: SellerPageMapper
+    private lateinit var pageMapper: SellerPageMapper
     @Autowired
-    private lateinit var repo: SellerPageRepo
+    private lateinit var pageRepo: SellerPageRepo
     @Autowired
     private lateinit var userAuthRepo: UserAuthRepo
     @Autowired
     private lateinit var userAuthMapper: UserAuthMapper
 
+    // Used to register a user account with ROLE_SELLER, initial activation is false, admin approval required
     fun register(user: UserAuthDto?, request: WebRequest?): ResponseObject? {
         return if (validateUser(user)) {
             val newSeller: UserAuth = userAuthRepo.save(userAuthMapper.fromDtoSeller(user))
@@ -40,74 +45,74 @@ class SellerPageService {
         }
     }
 
-    fun getAll(): List<Long> {
-        return userAuthRepo.sellerIds
-    }
-
-//    fun getPreview(): Map<Long, String> {
-//        val sellers: List<Long> = userAuthRepo.sellerIds
-//        sellers.forEach()
-//
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    fun getSellerPageById(id: Long): SellerPageDto? {
-        return repo.findByIdOrNull(id).let { mapper.toDto(it) }
-    }
-
-    fun getAllSellersPages(): List<SellerPageDto>? {
-        return repo.findAll().map { mapper.toDto(it) }
-    }
-
-    fun postSellerPage(dto: SellerPageDto?) {
-        mapper.fromDto(dto).let { repo.save(it) }
-    }
-
-    fun updateSellerPageById(id: Long, dto: SellerPageDto?): String {
-        return if(repo.existsById(id)){
-            repo.save(
-                SellerPage(
-                    id,
-                    dto?.description,
-                    dto?.galleryLinks,
-                    dto?.priceMin,
-                    dto?.priceMax,
-                    dto?.unavailableDate,
-                    UserAuth(dto?.userId),
-                    dto?.sellerRatingsIds?.map { SellerRating(it) },
-                    dto?.purchasesIds?.map { Purchase(it) },
-                )
-            )
-            "Seller page with Id $id updated"
-        }else{
-            "Seller page with $id does not exist"
+    // Used to activate a user account with ROLE_SELLER, additionally creates a SellerPage for the given user.
+    fun activate(username: String?, request: WebRequest?): ResponseObject? {
+        val user = userAuthRepo.findByUsername(username)
+        if (user == null) {
+            throw UserNotFoundException("User with username $username does not exist.")
+        } else if (user.isEnabled) {
+            throw AccountAlreadyActivatedException("Account $username is already activated.")
         }
-    }
-
-    fun deleteSellerPageById(id: Long): String {
-        return if (repo.existsById(id)){
-            repo.deleteById(id)
-            "Deleted Seller page with $id"
-        }else{
-            "Seller page does not exist with $id"
+        val roles = user.roles
+        var isSeller = false
+        for (role in roles) {
+            if (role.displayName == "ROLE_SELLER") {
+                isSeller = true
+                break
+            }
         }
+        if (!isSeller) {
+            throw UnsatisfiedExpectationException("Cannot create pages for non-sellers!")
+        }
+
+
+        val sellerPage = SellerPage(user)
+        val page = pageRepo.save(sellerPage)
+
+        user.isEnabled = true
+        user.sellerPage = page
+        userAuthRepo.save(user)
+
+        return ResponseObject(
+            listOf("Page and activation for seller $username was performed successfully."),
+            HttpStatus.CREATED,
+            request
+        )
     }
 
+    // Used to get a seller's page properties
+    fun getPage(id: Long?): SellerPageDto? {
+        val user = userAuthRepo.findByIdOrNull(id)
+        if (user == null) {
+            throw UserNotFoundException("User with id $id does not exist.")
+        } else if (user.sellerPage == null) {
+            throw PageNotFoundException("Page for this user was not found. Possible reasons: not a seller, non-activated account.")
+        }
+        return pageMapper.toDtoList(user.sellerPage)
+    }
 
+    fun getSellers(): List<Long> {
+        return userAuthRepo.activeSellerIds
+    }
 
+    fun update(page: SellerPageDto, request: WebRequest?): ResponseObject? {
+        val userDetails = SecurityContextHolder.getContext().authentication.principal as UserDetails
+        val user = userAuthRepo.findByUsername(userDetails.username)
+        if (user == null) {
+            throw UserNotFoundException("User with username " + userDetails.username + " does not exist.")
+        } else if (user.id != page.userId) {
+            throw UnsatisfiedExpectationException("Provided user and authenticated user do not match!")
+        }
+        val original = pageRepo.findByIdOrNull(page.userId)
 
+        pageRepo.save(pageMapper.update(original, page))
 
+        return ResponseObject(
+            listOf("Page updated successfully."),
+            HttpStatus.CREATED,
+            request
+        )
+    }
 
     // ### Validations and checks ###
 

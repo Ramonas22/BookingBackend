@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,6 +70,14 @@ public class ImageService {
             throw new RuntimeException(e);
         }
         return new ResponseObject(Collections.singletonList("File uploaded successfully."), HttpStatus.CREATED, request);
+    }
+
+    public byte [] randomGalleryPicture(Long id) throws IOException {
+        String path = imageRepo.findOneBySellerId(id);
+        if (path == null) {
+            throw new ImageNotFoundException("No image found.");
+        }
+        return Files.readAllBytes(Paths.get(path));
     }
 
 

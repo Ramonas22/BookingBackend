@@ -4,6 +4,7 @@ import codeacademy.bookingforum.app.configuration.ResponseObject
 import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.context.request.WebRequest
 import javax.validation.Valid
@@ -20,43 +21,25 @@ class SellerPageController {
         return service.register(user, request)
     }
 
-    @GetMapping("/get/all")
-    fun getAll(): List<Long> {
-        return service.getAll()
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/activate/{username}")
+    fun activate(@PathVariable("username") username: String?, request: WebRequest?): ResponseObject? {
+        return service.activate(username, request)
     }
 
-//    @GetMapping("/get/preview")
-//    fun getPreview(): Map<Long, String> {
-//        return service.getPreview();
-//    }
-
-
-
-
-
-
-    @GetMapping("/getSellerPageById/{id}")
-    fun getSellerPageById(@PathVariable id: Long): SellerPageDto? {
-        return service.getSellerPageById(id)
+    @GetMapping("/getpage/{id}")
+    fun getPage(@PathVariable("id") id: Long?): SellerPageDto? {
+        return service.getPage(id)
     }
 
-    @GetMapping("/getAllSellersPages")
-    fun getAllSellersPages(): List<SellerPageDto>? {
-        return service.getAllSellersPages()
+    @GetMapping("/get/sellers")
+    fun getSellers(): List<Long> {
+        return service.getSellers()
     }
 
-    @PostMapping("/postSellerPage")
-    fun postSellerPage(@RequestBody dto: SellerPageDto?){
-        service.postSellerPage(dto)
-    }
-
-    @PutMapping("/updateSellerPage/{id}")
-    fun updateSellerPageById(@RequestBody dto: SellerPageDto?,@PathVariable id: Long): String {
-        return service.updateSellerPageById(id, dto)
-    }
-
-    @DeleteMapping("/deleteSellerPageById/{id}")
-    fun deleteSellerPageById(@PathVariable id: Long): String {
-        return service.deleteSellerPageById(id)
+    @Secured("ROLE_SELLER", "ROLE_ADMIN")
+    @PostMapping("/update")
+    fun update(@RequestBody page: SellerPageDto, request: WebRequest?): ResponseObject? {
+        return service.update(page, request)
     }
 }

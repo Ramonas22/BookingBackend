@@ -21,8 +21,8 @@ public class Purchase {
 
     @ManyToMany
     @JoinTable(
-            name = "user_order",
-            joinColumns = @JoinColumn(name = "order_id"),
+            name = "user_purchase",
+            joinColumns = @JoinColumn(name = "purchase_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<UserAuth> users;
 

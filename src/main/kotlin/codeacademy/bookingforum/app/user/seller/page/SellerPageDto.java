@@ -11,24 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SellerPageDto {
-
     Long id;
-
     String description;
-
-    List<String> galleryLinks;
-
+    List<Long> galleryImageIds;
     Double priceMin;
-
     Double priceMax;
-
-    List<Date> unavailableDate;
-
+    List<Date> unavailableDates;
     Long userId;
-
-    List<Long> sellerRatingsIds;
-
-    List<Long> purchasesIds;
-
-
+    List<Long> sellerRatingIds;
 }
