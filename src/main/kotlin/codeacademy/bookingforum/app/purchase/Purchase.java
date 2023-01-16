@@ -3,12 +3,19 @@ package codeacademy.bookingforum.app.purchase;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Table(name = "purchase")
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,63 +26,12 @@ public class Purchase {
     @Column(name = "booked_date")
     private LocalDateTime bookedDate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_purchase",
-            joinColumns = @JoinColumn(name = "purchase_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<UserAuth> users;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserAuth user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "seller_order",
-            joinColumns = @JoinColumn(name = "seller_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<SellerPage> sellers;
+    @ManyToOne
+    @JoinColumn(name = "page_id", nullable = false)
+    private SellerPage sellerPage;
 
-    public Purchase() {}
-
-    public Purchase(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public LocalDateTime getBookedDate() {
-        return bookedDate;
-    }
-
-    public void setBookedDate(LocalDateTime bookedDate) {
-        this.bookedDate = bookedDate;
-    }
-
-    public List<UserAuth> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserAuth> users) {
-        this.users = users;
-    }
-
-    public List<SellerPage> getSellers() {
-        return sellers;
-    }
-
-    public void setSellers(List<SellerPage> sellers) {
-        this.sellers = sellers;
-    }
 }

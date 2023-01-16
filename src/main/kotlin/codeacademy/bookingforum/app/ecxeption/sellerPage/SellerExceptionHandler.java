@@ -19,4 +19,18 @@ public class SellerExceptionHandler {
     ResponseObject handlePageNotFound(PageNotFoundException exception, WebRequest request) {
         return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.NOT_FOUND, request);
     }
+
+    @ResponseBody
+    @ExceptionHandler(RatingNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND) // 404
+    ResponseObject handleRatingNotFound(RatingNotFoundException exception, WebRequest request) {
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(PurchaseNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND) // 404
+    ResponseObject handlePurchaseNotFound(PurchaseNotFoundException exception, WebRequest request) {
+        return new ResponseObject(Collections.singletonList(exception.getMessage()), HttpStatus.NOT_FOUND, request);
+    }
 }

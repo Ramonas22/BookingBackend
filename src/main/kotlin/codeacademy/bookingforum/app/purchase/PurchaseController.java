@@ -1,41 +1,43 @@
 package codeacademy.bookingforum.app.purchase;
 
+import codeacademy.bookingforum.app.configuration.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/purchase")
 public class PurchaseController {
-
     @Autowired
     PurchaseService purchaseService;
 
-
-    @PostMapping("/addOrder")
-    public PurchaseDto addOrder(@RequestBody PurchaseDto purchaseDto) {
-        return purchaseService.createOrder(purchaseDto);
+    @Secured({"ROLE_SELLER", "ROLE_ADMIN"})
+    @GetMapping("/list/{id}") // ID of SellerPage
+    public List<PurchaseDto> getPurchaseList(@PathVariable("id") Long id) {
+        return purchaseService.getPurchaseList(id);
     }
 
-    @GetMapping("/gelOrderById/{id}")
-    public PurchaseDto getOrder(@PathVariable(name = "id") Long id) {
-        return purchaseService.findById(id);
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/order")
+    public ResponseObject placeOrder(@RequestBody @Valid PurchaseDto purchase, WebRequest request) {
+        return purchaseService.placeOrder(purchase, request);
     }
 
-    @GetMapping("/getAllOrders")
-    public List<PurchaseDto> findAllOrders() {
-        return purchaseService.findAllOrder();
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping("/myorders/{id}") // ID of User
+    public List<PurchaseDto> myOrders(@PathVariable("id") Long id) {
+        return purchaseService.myOrders(id);
     }
 
-    @DeleteMapping("/deleteOrder/{id}")
-    public String deleteOrder(@PathVariable(name = "id") Long id) {
-        return purchaseService.deleteOrder(id);
+    @Secured({"ROLE_SELLER","ROLE_ADMIN"})
+    @DeleteMapping("/delete/{id}") // ID of Purchase
+    public ResponseObject delete(@PathVariable("id") Long id, WebRequest request) {
+        return purchaseService.delete(id, request);
     }
-
-    @PutMapping("/updateOrder/{id}")
-    public String updateOrder(@RequestBody PurchaseDto orderdto, @PathVariable(name = "id") Long id) {
-        return purchaseService.updateOrder(id, orderdto);
-    }
-
 }

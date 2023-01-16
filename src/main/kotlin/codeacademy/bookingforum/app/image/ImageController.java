@@ -10,8 +10,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -21,44 +19,34 @@ public class ImageController {
     @Autowired
     ImageService imageService;
 
+    // Upload image (params include File and ImageDto)
     @Secured({"ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER"})
-    @PostMapping("/avatar")
+    @PostMapping("/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseObject file(@RequestParam("file") MultipartFile file, @RequestParam("body") String imageString, WebRequest request) {
-        return imageService.upload(file, imageString, request);
+    public ResponseObject upload(@RequestParam("file") MultipartFile file, @RequestParam("body") String imagestring, WebRequest request) {
+        return imageService.upload(file, imagestring, request);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_SELLER", "ROLE_USER"})
-    @PostMapping("/gallery")
+    // Get avatar of provided user
+    @GetMapping(value = "/avatar/{user_id}", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseObject galleryImage(@RequestParam("file") MultipartFile file, @RequestParam("body") String imageString, WebRequest request) {
-        return imageService.galleryImage(file, imageString, request);
+    public @ResponseBody byte[] getAvatar(@PathVariable("id") Long id) throws IOException {
+        return imageService.getAvatar(id);
     }
 
-    @GetMapping(value = "/get/{username}/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getByLocation(@PathVariable("username") String username, @PathVariable("filename") String filename) throws IOException {
-        return Files.readAllBytes(Paths.get("/var/www/irenteye.com/html/uploads/"+username+"/"+filename));
+    // Get a list of image id's that belong to a gallery of provided SELLER
+    @GetMapping("/gallery/{id}") // User id (ROLE_SELLER)
+    public List<Long> getGallery(@PathVariable("id") Long id) {
+        return imageService.getGallery(id);
     }
 
-
-    @GetMapping(value = "/profile", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] profilePicture(@RequestBody ImageDto imageDto) throws IOException {
-        return Files.readAllBytes(Paths.get(imageDto.getLocation()));
+    // Get file by id
+    @GetMapping(value = "/get/{id}", produces = MediaType.IMAGE_JPEG_VALUE) // Image id
+    public @ResponseBody byte[] getById(@PathVariable("id") Long id) throws IOException {
+        return imageService.getById(id);
     }
 
-    @GetMapping("/getPhoto/{id}")
-    public ImageDto getPhoto(@PathVariable(name = "id") Long id){
-        return imageService.findById(id);
-    }
-
-    @GetMapping("/getAllPhotos")
-    public List<ImageDto> getAllPhotos(){return imageService.findAllPhotos();}
-
-    @DeleteMapping("/deletePhoto/{id}")
-    public String deletePhoto(@PathVariable(name = "id") Long id){
-        return imageService.deletePhoto(id);
-    }
-
+    // Get random image file that belongs to provided user's (seller's) gallery
     @GetMapping(value = "/preview/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] randomGalleryPicture(@PathVariable("id") Long id) throws IOException {
         return imageService.randomGalleryPicture(id);

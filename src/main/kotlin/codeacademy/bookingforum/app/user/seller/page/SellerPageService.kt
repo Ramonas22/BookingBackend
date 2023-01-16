@@ -5,13 +5,11 @@ import codeacademy.bookingforum.app.ecxeption.global.InvalidRequestException
 import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException
 import codeacademy.bookingforum.app.ecxeption.sellerPage.PageNotFoundException
 import codeacademy.bookingforum.app.ecxeption.user.*
-import codeacademy.bookingforum.app.purchase.Purchase
 import codeacademy.bookingforum.app.user.auth.UserAuth
 import codeacademy.bookingforum.app.user.auth.UserAuthMapper
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo
 import codeacademy.bookingforum.app.user.auth.UserAuthService
 import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto
-import codeacademy.bookingforum.app.user.seller.rating.SellerRating
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus

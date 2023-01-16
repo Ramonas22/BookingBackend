@@ -18,18 +18,8 @@ public class PurchaseMapper {
         dto.setId(entity.getId());
         dto.setDetails(entity.getDetails());
         dto.setBookedDate(entity.getBookedDate());
-
-        List<Long> orderUserList = new ArrayList<>();
-        for(UserAuth user: entity.getUsers()){
-            orderUserList.add(user.getId());
-        }
-        dto.setOrderUser_id(orderUserList);
-
-        List<Long> orderSellerList = new ArrayList<>();
-        for(SellerPage seller: entity.getSellers()){
-            orderUserList.add(seller.getId());
-        }
-        dto.setOrderSeller_id(orderSellerList);
+        dto.setUserId(entity.getUser().getId());
+        dto.setPageId(entity.getSellerPage().getId());
 
         return dto;
     }
@@ -42,19 +32,8 @@ public class PurchaseMapper {
         entity.setId(dto.getId());
         entity.setDetails(dto.getDetails());
         entity.setBookedDate(dto.getBookedDate());
-
-        List<UserAuth> userAuthList = new ArrayList<>();
-        for(Long id: dto.getOrderUser_id()){
-            UserAuth user = new UserAuth();
-            user.setId(id);
-        }
-        entity.setUsers(userAuthList);
-
-        List<SellerPage> sellerPageList = new ArrayList<>();
-        for(Long id: dto.getOrderSeller_id()){
-            sellerPageList.add(new SellerPage(id));
-        }
-        entity.setSellers(sellerPageList);
+        entity.setUser(new UserAuth(dto.getUserId()));
+        entity.setSellerPage(new SellerPage(dto.getPageId()));
 
         return entity;
     }
@@ -66,9 +45,4 @@ public class PurchaseMapper {
         }
         return dtos;
     }
-//    public List<Purchase> fromDtoList(List<PurchaseDto> dtos) {
-//        List<Purchase> entities = new ArrayList<>();
-//        dtos.forEach(dto -> {entities.add(this.fromDto(dto));});
-//        return entities;
-//    }
 }

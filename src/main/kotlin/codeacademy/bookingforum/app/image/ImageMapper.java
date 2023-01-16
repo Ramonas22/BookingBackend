@@ -4,8 +4,6 @@ import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 @Service
 public class ImageMapper {
     @Autowired
@@ -35,16 +33,6 @@ public class ImageMapper {
         entity.setUser(userAuthRepo.findByUsername(dto.getUsername().trim()));
 
         return entity;
-    }
-
-    public List<ImageDto> toDto(List<Image> entities) {
-        List<ImageDto> dtos = new ArrayList<>();
-
-        for (Image entity : entities) {
-            dtos.add(toDto(entity));
-        }
-
-        return dtos;
     }
 }
 

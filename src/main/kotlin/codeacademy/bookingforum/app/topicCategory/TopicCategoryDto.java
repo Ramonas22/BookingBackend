@@ -1,5 +1,7 @@
 package codeacademy.bookingforum.app.topicCategory;
 
+import codeacademy.bookingforum.app.topic.Topic;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,39 +14,10 @@ import java.util.List;
 
 public class TopicCategoryDto {
     private Long id;
+    @NotEmpty(message = "No title provided.")
     private String title;
+    @NotEmpty(message = "No description provided.")
     private String description;
     private List<String> roles;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
+    private List<Topic> topics;
 }

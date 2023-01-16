@@ -14,5 +14,4 @@ public class ImageDto {
     private String type;
     private String location;
     private String name;
-
 }

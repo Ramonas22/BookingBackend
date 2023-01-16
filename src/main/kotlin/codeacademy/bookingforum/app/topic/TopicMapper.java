@@ -18,11 +18,10 @@ public class TopicMapper {
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setPostCount(entity.getPostCount());
-        dto.setReplayCount(entity.getReplyCount());
-        dto.setPostLast(entity.getPostLast());
-        dto.setUserLastPost(entity.getUserLastPost());
+        dto.setReplyCount(entity.getReplyCount());
+        dto.setLastPostId(entity.getLastPostId());
         dto.setUserId(entity.getId());
-        dto.setTopicCategory_id(entity.getId());
+        dto.setSectionId(entity.getSection().getId());
 
         return dto;
     }
@@ -31,29 +30,24 @@ public class TopicMapper {
         if(dto == null){
             return null;
         }
-        UserAuth user = new UserAuth();
-        user.setId(dto.getUserId());
 
         Topic entity = new Topic();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setPostCount(dto.getPostCount());
-        entity.setReplyCount(dto.getReplayCount());
-        entity.setPostLast(dto.getPostLast());
-        entity.setUserLastPost(dto.getUserLastPost());
-        entity.setUser(user);
-        entity.setTopicCategory(new TopicCategory(dto.getTopicCategory_id()));
+        entity.setReplyCount(dto.getReplyCount());
+        entity.setLastPostId(dto.getLastPostId());
+        entity.setUser(new UserAuth(dto.getUserId()));
+        entity.setSection(new TopicCategory(dto.getSectionId()));
 
         return entity;
     }
 
-    public List<TopicDto> toDto(List<Topic> ent){
-        List<TopicDto> dtos = new ArrayList<>();
+    public List<TopicDto> toDtoList(List<Topic> entities){
+        List<TopicDto> dtoList = new ArrayList<>();
 
-        for(Topic entity : ent){
-            dtos.add((TopicDto) toDto(entity));
-        }
-        return dtos;
+        entities.forEach(entity -> dtoList.add(toDto(entity)));
+        return dtoList;
     }
 }

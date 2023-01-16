@@ -1,63 +1,88 @@
 package codeacademy.bookingforum.app.post;
 
-import codeacademy.bookingforum.app.image.Image;
+import codeacademy.bookingforum.app.configuration.ResponseObject;
+import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException;
+import codeacademy.bookingforum.app.ecxeption.user.UserNotFoundException;
+import codeacademy.bookingforum.app.image.FileStorageService;
+import codeacademy.bookingforum.app.image.ImageDto;
+import codeacademy.bookingforum.app.image.ImageType;
+import codeacademy.bookingforum.app.topic.Topic;
+import codeacademy.bookingforum.app.topic.TopicRepository;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
+import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
+import com.google.gson.Gson;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PostService {
-
     @Autowired
     PostRepo postRepo;
-
     @Autowired
     PostMapper postMapper;
+    @Autowired
+    UserAuthRepo userRepo;
+    @Autowired
+    FileStorageService storageService;
+    @Autowired
+    TopicRepository topicRepo;
 
+    public ResponseObject create(MultipartFile file, String postString, WebRequest request) throws IOException {
+        Gson gson = new Gson();
+        @Valid PostDto postDto = gson.fromJson(postString, PostDto.class);
 
-    public PostDto findById(Long id) {
-        Post post = postRepo.findById(id).orElse(null);
-        return postMapper.toDto(post);
-    }
+        UserAuth user = userRepo.findById(postDto.getUserId()).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException("User with id "+postDto.getUserId()+" does not exist!");
+        }
+        checkAuth(user);
 
-    public List<PostDto> findAllPosts() {
-        List<Post> posts = (List<Post>) postRepo.findAll();
-        return postMapper.toDtos(posts);
-    }
+        ImageDto image = new ImageDto();
+        image.setUsername(user.getUsername());
+        image.setType(ImageType.POST.toString());
 
-    public PostDto createPost(PostDto postDto) {
         Post post = postMapper.fromDto(postDto);
+        post.setDatePosted(LocalDateTime.now());
+        try {post.setImage(storageService.storePostImage(file, image, user));
+        } catch (Exception e) {post.setImage(null);}
         postRepo.save(post);
-        return postMapper.toDto(post);
+
+        return new ResponseObject(Collections.singletonList("Posted successfully."), HttpStatus.CREATED, request);
     }
 
-    public String updatePost(Long id, PostDto postDto) {
-        if(postRepo.existsById(id)){
-            postRepo.save(
-                    new Post(
-                            id,
-                            postDto.getTitle(),
-                            postDto.getContent(),
-                            postDto.getDatePosted(),
-                            postDto.getImages().stream().map(ids -> new Image(ids)).toList(),
-                            new UserAuth(postDto.getUser_id())
-                    ));
-            return "Post with id " + id + " updated";
-        }else {
-            return "Post with id " + id + " does not exist";
+    public List<PostDto> getList(Long id) {
+        Topic topic = topicRepo.findById(id).orElse(null);
+        if (topic == null) {
+            throw new UnsatisfiedExpectationException("Can't get posts from non-existing topic!");
         }
-    }
 
-    public String deletePost(Long id) {
-        if (postRepo.existsById(id)) {
-            postRepo.deleteById(id);
-            return "Post with id " + id + " deleted";
-        } else {
-            return "Post with id " + id + " does not exist";
+        List<Post> posts = postRepo.findAllByTopic(topic);
+        if (posts == null) {
+            throw new UnsatisfiedExpectationException("This topic doesn't have any posts yet!");
         }
+
+        return postMapper.toDtoList(posts);
     }
 
+
+    // Validate authorization, check whether user is requesting his own resource
+    void checkAuth(UserAuth user) {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (!Objects.equals(userDetails.getUsername(), user.getUsername())) {
+        throw new UnsatisfiedExpectationException("Requesting and requested user do not match!");
+    }
+}
 
 }

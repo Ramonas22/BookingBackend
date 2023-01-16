@@ -2,6 +2,9 @@ package codeacademy.bookingforum.app.topicCategory;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TopicCategoryMapper {
     public TopicCategoryDto toDto(TopicCategory entity) {
@@ -26,5 +29,15 @@ public class TopicCategoryMapper {
         entity.setDescription(dto.getDescription());
         entity.setRoles(dto.getRoles());
         return entity;
+    }
+
+    public List<TopicCategoryDto> toDtoList(List<TopicCategory> entityList) {
+        if (entityList == null) {
+            return null;
+        }
+        List<TopicCategoryDto> dtoList = new ArrayList<>();
+
+        entityList.forEach(entity -> dtoList.add(toDto(entity)));
+        return dtoList;
     }
 }

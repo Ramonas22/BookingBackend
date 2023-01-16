@@ -1,6 +1,10 @@
 package codeacademy.bookingforum.app.post;
 
-import org.springframework.data.repository.CrudRepository;
+import codeacademy.bookingforum.app.topic.Topic;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostRepo extends CrudRepository <Post, Long> {
+import java.util.List;
+
+public interface PostRepo extends JpaRepository<Post, Long> {
+    List<Post> findAllByTopic(Topic topic);
 }

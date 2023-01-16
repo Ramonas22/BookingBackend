@@ -38,7 +38,7 @@ public class SellerPage {
     UserAuth user;
     @OneToMany(mappedBy = "page")
     List<SellerRating> ratings;
-    @ManyToMany(mappedBy = "sellers")
+    @OneToMany(mappedBy = "sellerPage")
     List<Purchase> purchases;
 
     public SellerPage(Long id) {

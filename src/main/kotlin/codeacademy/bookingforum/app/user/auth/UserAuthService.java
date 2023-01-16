@@ -4,6 +4,7 @@ import codeacademy.bookingforum.app.configuration.JwtUtils;
 import codeacademy.bookingforum.app.configuration.ResponseObject;
 import codeacademy.bookingforum.app.configuration.UserDetailsImpl;
 import codeacademy.bookingforum.app.ecxeption.global.InvalidRequestException;
+import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException;
 import codeacademy.bookingforum.app.ecxeption.user.*;
 import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
@@ -26,6 +28,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +97,7 @@ public class UserAuthService {
             String jwtToken = jwtUtils.generateJwtToken(userDetails);
 
             UserDetailsDto response = userAuthMapper.toDtoDetails(user);
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtToken).body(response);
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtToken).header("Access-Control-Expose-Headers","Authorization").body(response);
         }
     }
 
@@ -133,9 +136,10 @@ public class UserAuthService {
         }
 
         UserAuth user = userAuthRepo.findByUsername(username);
-        if (user == null || !user.getId().equals(dto.getId()) || !user.getUsername().equals(dto.getUsername())) {
-            throw new InvalidRequestException("Requesting user and user to be updated do not match!");
+        if (user == null) {
+            throw new UserNotFoundException("User "+username+" does not exist!");
         }
+        checkAuth(user);
 
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setBiography(dto.getBiography());
@@ -189,5 +193,13 @@ public class UserAuthService {
     private static boolean validateRegex(final String str, Pattern pattern) {
         Matcher matcher = pattern.matcher(str);
         return !matcher.matches();
+    }
+
+    // Check if requesting and requested user are the same
+    void checkAuth(UserAuth user) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!Objects.equals(userDetails.getUsername(), user.getUsername())) {
+            throw new UnsatisfiedExpectationException("Requesting and requested user do not match!");
+        }
     }
 }

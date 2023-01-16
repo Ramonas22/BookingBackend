@@ -94,8 +94,8 @@ public class UserAuthMapper {
         }
         List<RoleDto> roleDtos = new ArrayList<>();
         List<PurchaseDto> purchaseDtos = new ArrayList<>();
-        entity.getRoles().forEach(role -> {roleDtos.add(roleMapper.toDto(role));});
-        entity.getPurchases().forEach(purchase -> {purchaseDtos.add(purchaseMapper.toDto(purchase));});
+        entity.getRoles().forEach(role -> roleDtos.add(roleMapper.toDto(role)));
+        entity.getPurchases().forEach(purchase -> purchaseDtos.add(purchaseMapper.toDto(purchase)));
         return new UserManagementDto(
                 entity.getId(),
                 entity.getUsername(),

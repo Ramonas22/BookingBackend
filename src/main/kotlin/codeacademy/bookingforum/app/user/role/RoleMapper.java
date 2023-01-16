@@ -16,14 +16,4 @@ public class RoleMapper {
         entity.setDisplayName(dto.getDisplayName());
         return entity;
     }
-//    public List<RoleDto> toDtoList(List<Role> entities) {
-//        List<RoleDto> dtos = new ArrayList<>();
-//        entities.forEach(entity -> {dtos.add(this.toDto(entity));});
-//        return dtos;
-//    }
-//    public List<Role> toEntityList(List<RoleDto> dtos) {
-//        List<Role> entities = new ArrayList<>();
-//        dtos.forEach(dto -> {entities.add(this.fromDto(dto));});
-//        return entities;
-//    }
 }

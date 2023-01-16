@@ -38,6 +38,7 @@ class SellerPageController {
     }
 
     @Secured("ROLE_SELLER", "ROLE_ADMIN")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/update")
     fun update(@RequestBody page: SellerPageDto, request: WebRequest?): ResponseObject? {
         return service.update(page, request)

@@ -6,7 +6,6 @@ import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.role.Role;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import codeacademy.bookingforum.app.user.seller.rating.SellerRating;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +41,7 @@ public class UserAuth {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Purchase> purchases;
     @Column(name = "enabled")
     private boolean enabled;

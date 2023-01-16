@@ -1,15 +1,20 @@
 package codeacademy.bookingforum.app.topic;
 
+import codeacademy.bookingforum.app.post.Post;
 import codeacademy.bookingforum.app.topicCategory.TopicCategory;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table(name = "topic")
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Topic {
@@ -26,29 +31,18 @@ public class Topic {
     private Integer postCount;
     @Column(name = "reply_count")
     private Integer replyCount;
-    @Column(name = "post_last")
-    private Integer postLast;
-    @Column(name = "user_last_post")
-    private Integer userLastPost;
-
-
+    @Column(name = "last_post_id")
+    private Long lastPostId;
     @ManyToOne
-    @JoinColumn(name = "topic_id", insertable = false, updatable = false)
+    @JoinColumn(name = "topic_id", nullable = false)
     private UserAuth user;
-
     @ManyToOne
-    @JoinColumn(name = "topic_category_id", insertable = false, updatable = false)
-    private TopicCategory topicCategory;
+    @JoinColumn(name = "section_id", nullable = false)
+    private TopicCategory section;
+    @OneToMany(mappedBy = "topic")
+    private List<Post> posts;
 
-    public Topic(Long id, String title, String description, Integer postCount, Integer replyCount, Integer postLast, Integer userLastPost, UserAuth user, TopicCategory topicCategory) {
+    public Topic(Long id) {
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.postCount = postCount;
-        this.replyCount = replyCount;
-        this.postLast = postLast;
-        this.userLastPost = userLastPost;
-        this.user = user;
-        this.topicCategory = topicCategory;
     }
 }

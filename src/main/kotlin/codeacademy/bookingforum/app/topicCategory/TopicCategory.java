@@ -1,6 +1,8 @@
 package codeacademy.bookingforum.app.topicCategory;
 
+import codeacademy.bookingforum.app.topic.Topic;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "topic_category")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class TopicCategory {
@@ -24,15 +27,11 @@ public class TopicCategory {
     private String description;
     @Column(name = "roles")
     private List<String> roles;
+    @OneToMany(mappedBy = "section")
+    private List<Topic> topics;
 
     public TopicCategory(Long id) {
         this.id = id;
     }
 
-    public TopicCategory(Long id, String title, String description, List<String> roles) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.roles = roles;
-    }
 }
