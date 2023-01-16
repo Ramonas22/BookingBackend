@@ -29,10 +29,10 @@ public class Comment {
     Integer likes;
     @Column(name = "dislikes")
     Integer dislikes;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     UserAuth user;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "post_id")
     Post post;
 

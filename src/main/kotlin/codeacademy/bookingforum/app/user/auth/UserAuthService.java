@@ -162,7 +162,6 @@ public class UserAuthService {
         if (!requestedUser.equals(requestingUser)) {
             dto.setEmail(null);
             dto.setGender(null);
-            dto.setBiography(null);
         }
         return dto;
     }

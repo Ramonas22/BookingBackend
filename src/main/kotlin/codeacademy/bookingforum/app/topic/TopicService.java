@@ -22,7 +22,16 @@ public class TopicService {
     TopicCategoryRepo sectionRepo;
 
     public ResponseObject create(TopicDto topic, WebRequest request) {
-        topicRepo.save(topicMapper.fromDto(topic));
+        TopicCategory section = sectionRepo.findById(topic.getSectionId()).orElse(null);
+        if (section == null) {
+            throw new UnsatisfiedExpectationException("Can't save topic to non-existing section!");
+        }
+        Topic oldTopic = topicRepo.findByTitle(topic.getTitle().trim());
+        if (oldTopic != null) {
+            throw new UnsatisfiedExpectationException("This topic already exists!");
+        }
+
+        section.getTopics().add(topicRepo.save(topicMapper.fromDto(topic)));
 
         return new ResponseObject(Collections.singletonList("Successfully added new topic."), HttpStatus.CREATED, request);
     }

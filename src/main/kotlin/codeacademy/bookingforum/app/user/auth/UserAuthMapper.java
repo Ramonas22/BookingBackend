@@ -6,10 +6,7 @@ import codeacademy.bookingforum.app.enums.Gender;
 import codeacademy.bookingforum.app.user.auth.dto.UserAuthDto;
 import codeacademy.bookingforum.app.user.auth.dto.UserDetailsDto;
 import codeacademy.bookingforum.app.user.auth.dto.UserManagementDto;
-import codeacademy.bookingforum.app.user.role.RoleDto;
-import codeacademy.bookingforum.app.user.role.RoleMapper;
 import codeacademy.bookingforum.app.user.role.RoleRepo;
-import codeacademy.bookingforum.app.user.seller.page.SellerPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,10 +19,6 @@ import java.util.List;
 public class UserAuthMapper {
     @Autowired
     PurchaseMapper purchaseMapper;
-    @Autowired
-    SellerPageMapper sellerPageMapper;
-    @Autowired
-    RoleMapper roleMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -92,9 +85,9 @@ public class UserAuthMapper {
         if(entity == null) {
             return null;
         }
-        List<RoleDto> roleDtos = new ArrayList<>();
+        List<String> roleDtos = new ArrayList<>();
         List<PurchaseDto> purchaseDtos = new ArrayList<>();
-        entity.getRoles().forEach(role -> roleDtos.add(roleMapper.toDto(role)));
+        entity.getRoles().forEach(role -> roleDtos.add(role.getDisplayName()));
         entity.getPurchases().forEach(purchase -> purchaseDtos.add(purchaseMapper.toDto(purchase)));
         return new UserManagementDto(
                 entity.getId(),
@@ -105,8 +98,7 @@ public class UserAuthMapper {
                 roleDtos,
                 purchaseDtos,
                 entity.isEnabled(),
-                entity.getJoinDate(),
-                sellerPageMapper.toDtoList(entity.getSellerPage()));
+                entity.getJoinDate());
     }
 
     // Used to load user profile (when that user is the owner)

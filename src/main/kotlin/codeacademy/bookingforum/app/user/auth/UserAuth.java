@@ -1,5 +1,6 @@
 package codeacademy.bookingforum.app.user.auth;
 
+import codeacademy.bookingforum.app.comment.Comment;
 import codeacademy.bookingforum.app.image.Image;
 import codeacademy.bookingforum.app.purchase.Purchase;
 import codeacademy.bookingforum.app.enums.Gender;
@@ -35,13 +36,13 @@ public class UserAuth {
     private Gender gender;
     @Column(name = "biography")
     private String biography;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Purchase> purchases;
     @Column(name = "enabled")
     private boolean enabled;
@@ -52,9 +53,10 @@ public class UserAuth {
     private SellerPage sellerPage;
     @OneToMany(mappedBy = "user")
     private List<Image> images;
-
     @OneToMany(mappedBy = "user")
     private List<SellerRating> ratings;
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 
     public UserAuth(Long id) {
         this.id = id;

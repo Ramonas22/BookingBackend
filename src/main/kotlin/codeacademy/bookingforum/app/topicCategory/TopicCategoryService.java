@@ -1,6 +1,7 @@
 package codeacademy.bookingforum.app.topicCategory;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
+import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class TopicCategoryService {
 
     // Create new section
     public ResponseObject create(TopicCategoryDto section, WebRequest request) {
+        TopicCategory oldSection = sectionRepo.findByTitle(section.getTitle().trim());
+        if (oldSection != null) {
+            throw new UnsatisfiedExpectationException("This section already exists!");
+        }
+
         sectionRepo.save(sectionMapper.fromDto(section));
         return new ResponseObject(Collections.singletonList("Section created successfully."), HttpStatus.CREATED, request);
     }
@@ -33,6 +39,7 @@ public class TopicCategoryService {
     public List<TopicCategoryDto> getList() {
         List<TopicCategory> sections = (List<TopicCategory>) sectionRepo.findAll();
         UserDetails userDetails = null;
+        List<TopicCategory> returnSections = new ArrayList<>();
 
         try {userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e) {assert true;}
@@ -40,21 +47,22 @@ public class TopicCategoryService {
         if (userDetails != null) {
             UserAuth user = userRepo.findByUsername(userDetails.getUsername());
             List<String> userRoles = new ArrayList<>();
-            user.getRoles().forEach(role -> userRoles.add(role.getDisplayName()));
+            user.getRoles().forEach(role -> userRoles.add(role.getDisplayName().trim()));
 
             sections.forEach(section -> section.getRoles().forEach(role -> {
-                if (!userRoles.contains(role)) {
-                    sections.remove(section);
+                if (userRoles.contains(role.trim())) {
+                    returnSections.add(section);
                 }
             }));
         } else {
             sections.forEach(section -> {
-                if (section.getRoles().contains("ROLE_ADMIN") || section.getRoles().contains("ROLE_SELLER")) {
-                    sections.remove(section);
+
+                if (!section.getRoles().contains("ROLE_USER")) {
+                    returnSections.add(section);
                 }
             });
         }
 
-        return sectionMapper.toDtoList(sections);
+        return sectionMapper.toDtoList(returnSections);
     }
 }

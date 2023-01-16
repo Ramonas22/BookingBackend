@@ -15,8 +15,6 @@ import java.util.Objects;
 public class FileStorageService {
     @Autowired
     ImageRepo imageRepo;
-    @Autowired
-    ImageMapper imageMapper;
     private void defaultPath(String username) {
         path = "/var/www/irenteye.com/html/uploads/"+username;
     }
@@ -30,14 +28,13 @@ public class FileStorageService {
         File newFile = new File(path+"/"+fileName);
         Image oldImage = imageRepo.findOneByTypeAndUser(ImageType.USER_AVATAR, user);
 
+        Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.USER_AVATAR, user, null, file.getContentType());
         if (oldImage != null) {
-            Image newImage = imageMapper.fromDto(imageDto);
-            newImage.setId(oldImage.getId());
-            imageRepo.save(newImage);
-        } else {
-            Image image = new Image(fileName, path+"/"+fileName, imageDto.getTags(), imageDto.getDescription(), ImageType.USER_AVATAR, user, null, file.getContentType());
-            imageRepo.save(image);
+            image.setId(oldImage.getId());
+
         }
+        image.setTags(imageDto.getTags());
+        imageRepo.save(image);
 
         file.transferTo(newFile.getAbsoluteFile());
     }

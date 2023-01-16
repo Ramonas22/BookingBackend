@@ -7,6 +7,7 @@ import codeacademy.bookingforum.app.post.Post;
 import codeacademy.bookingforum.app.post.PostRepo;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,12 +30,18 @@ public class CommentService {
     @Autowired
     PostRepo postRepo;
 
+    @Transactional
     public ResponseObject create(CommentDto comment, WebRequest request) {
         UserAuth user = userRepo.findById(comment.getUserId()).orElse(null);
         if (user == null) {
             throw new UserNotFoundException("User with id "+comment.getUserId()+" does not exist!");
         }
         checkAuth(user);
+
+        Post post = postRepo.findById(comment.getPostId()).orElse(null);
+        if (post == null) {
+            throw new UnsatisfiedExpectationException("Can't comment on non-existing posts!");
+        }
         commentRepo.save(commentMapper.fromDto(comment));
 
         return new ResponseObject(Collections.singletonList("Comment successfully published."), HttpStatus.CREATED, request);
@@ -50,7 +57,7 @@ public class CommentService {
     }
 
     public CommentDto getById(Long id) {
-        Comment comment = commentRepo.findById(id).orElse(null);
+        Comment comment = commentRepo.findByIdOverride(id);
         if (comment == null) {
             throw new UnsatisfiedExpectationException("Comment with id "+id+" does not exist!");
         }

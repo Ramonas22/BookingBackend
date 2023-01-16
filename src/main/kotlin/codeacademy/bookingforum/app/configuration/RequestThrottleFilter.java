@@ -47,7 +47,7 @@ public class RequestThrottleFilter implements Filter {
         requests = requestCountsPerIpAddress.get(clientIpAddress);
         if(requests != null){
             // Maximum endpoint calls per second. Applies to all endpoints
-            int MAX_REQUESTS_PER_SECOND = 5;
+            int MAX_REQUESTS_PER_SECOND = 20;
             if(requests > MAX_REQUESTS_PER_SECOND) {
                 requestCountsPerIpAddress.asMap().remove(clientIpAddress);
                 requestCountsPerIpAddress.put(clientIpAddress, requests);

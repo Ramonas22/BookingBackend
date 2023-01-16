@@ -11,8 +11,11 @@ import codeacademy.bookingforum.app.topic.TopicRepository;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.auth.UserAuthRepo;
 import com.google.gson.Gson;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,9 +42,10 @@ public class PostService {
     @Autowired
     TopicRepository topicRepo;
 
+    @Transactional
     public ResponseObject create(MultipartFile file, String postString, WebRequest request) throws IOException {
         Gson gson = new Gson();
-        @Valid PostDto postDto = gson.fromJson(postString, PostDto.class);
+        @Valid NewPostDto postDto = gson.fromJson(postString, NewPostDto.class);
 
         UserAuth user = userRepo.findById(postDto.getUserId()).orElse(null);
         if (user == null) {
@@ -53,8 +57,9 @@ public class PostService {
         image.setUsername(user.getUsername());
         image.setType(ImageType.POST.toString());
 
-        Post post = postMapper.fromDto(postDto);
+        Post post = postMapper.fromNewDto(postDto);
         post.setDatePosted(LocalDateTime.now());
+
         try {post.setImage(storageService.storePostImage(file, image, user));
         } catch (Exception e) {post.setImage(null);}
         postRepo.save(post);

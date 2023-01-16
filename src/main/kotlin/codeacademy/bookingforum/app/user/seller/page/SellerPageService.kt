@@ -101,7 +101,7 @@ class SellerPageService {
         } else if (user.id != page.userId) {
             throw UnsatisfiedExpectationException("Provided user and authenticated user do not match!")
         }
-        val original = pageRepo.findByIdOrNull(page.userId)
+        val original = pageRepo.findByUser(user)
 
         pageRepo.save(pageMapper.update(original, page))
 

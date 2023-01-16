@@ -28,7 +28,7 @@ public class ImageController {
     }
 
     // Get avatar of provided user
-    @GetMapping(value = "/avatar/{user_id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/avatar/{id}", produces = MediaType.IMAGE_JPEG_VALUE) // ID of UserAuth
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody byte[] getAvatar(@PathVariable("id") Long id) throws IOException {
         return imageService.getAvatar(id);

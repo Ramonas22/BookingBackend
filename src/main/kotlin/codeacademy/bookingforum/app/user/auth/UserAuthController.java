@@ -35,6 +35,7 @@ public class UserAuthController {
         return userAuthService.login(loginObject);
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/get/userlist")
     public List<UserManagementDto> userList() {
         return userAuthService.userList();

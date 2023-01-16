@@ -18,6 +18,7 @@ public class ImageMapper {
         dto.setDescription(entity.getDescription());
         dto.setType(entity.getType().toString());
         dto.setUsername(entity.getUser().getUsername());
+        dto.setName(entity.getName());
         return dto;
 
     }

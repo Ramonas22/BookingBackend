@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TopicCategoryRepo extends CrudRepository<TopicCategory, Long> {
+    TopicCategory findByTitle(String title);
 }

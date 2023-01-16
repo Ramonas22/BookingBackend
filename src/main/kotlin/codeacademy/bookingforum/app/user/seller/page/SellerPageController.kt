@@ -21,6 +21,7 @@ class SellerPageController {
         return service.register(user, request)
     }
 
+    @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/activate/{username}")
     fun activate(@PathVariable("username") username: String?, request: WebRequest?): ResponseObject? {
@@ -39,7 +40,7 @@ class SellerPageController {
 
     @Secured("ROLE_SELLER", "ROLE_ADMIN")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/update")
+    @PutMapping("/update")
     fun update(@RequestBody page: SellerPageDto, request: WebRequest?): ResponseObject? {
         return service.update(page, request)
     }

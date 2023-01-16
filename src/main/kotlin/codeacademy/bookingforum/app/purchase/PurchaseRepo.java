@@ -9,4 +9,5 @@ import java.util.List;
 public interface PurchaseRepo extends CrudRepository<Purchase, Long> {
     List<Purchase> findAllBySellerPage(SellerPage page);
     List<Purchase> findAllByUser(UserAuth user);
+    Purchase findBySellerPageAndUser(SellerPage sellerPage, UserAuth userAuth);
 }

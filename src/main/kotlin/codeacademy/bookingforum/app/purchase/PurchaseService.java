@@ -28,6 +28,8 @@ public class PurchaseService {
     SellerPageRepo pageRepo;
     @Autowired
     UserAuthRepo userRepo;
+    @Autowired
+    SellerPageRepo sellerPageRepo;
 
     // Get a list of all previous purchases of provided page
     public List<PurchaseDto> getPurchaseList(Long id) {
@@ -51,8 +53,22 @@ public class PurchaseService {
         if (user == null) {
             throw new UserNotFoundException("User with id "+purchase.getUserId()+" does not exist!");
         }
-
         checkAuth(user, "You can't place an order for someone else!");
+
+        SellerPage page = sellerPageRepo.findById(purchase.getPageId()).orElse(null);
+        if (page == null) {
+            throw new PageNotFoundException("Page with id "+purchase.getPageId()+" does not exist!");
+        }
+        if (page.getUnavailableDates() == null) {
+            page.setUnavailableDates(new ArrayList<>());
+        }
+        Purchase oldOrder = purchaseRepo.findBySellerPageAndUser(page, user);
+        if (oldOrder != null) {
+            throw new UnsatisfiedExpectationException("You already ordered from this seller!");
+        }
+        page.getUnavailableDates().add(new Date());
+        pageRepo.save(page);
+
         purchaseRepo.save(purchaseMapper.fromDto(purchase));
         return new ResponseObject(Collections.singletonList("Successfully placed order!"), HttpStatus.CREATED, request);
     }
@@ -85,6 +101,8 @@ public class PurchaseService {
         }
         checkAuth(user,"You can't delete another seller's order!");
 
+        purchaseRepo.delete(order);
+
         return new ResponseObject(Collections.singletonList("Order deleted successfully!"), HttpStatus.OK, request);
     }
 
@@ -97,7 +115,7 @@ public class PurchaseService {
         if (roles.contains("ROLE_ADMIN")) {
             return;
         }
-        if (!Objects.equals(userDetails.getUsername(), user.getUsername())) {
+        if (!userDetails.getUsername().equals(user.getUsername())) {
             throw new UnsatisfiedExpectationException(message);
         }
     }

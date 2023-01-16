@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Table(name = "purchase")
 @Entity
@@ -24,7 +24,7 @@ public class Purchase {
     @Column(name = "details")
     private String details;
     @Column(name = "booked_date")
-    private LocalDateTime bookedDate;
+    private Date bookedDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

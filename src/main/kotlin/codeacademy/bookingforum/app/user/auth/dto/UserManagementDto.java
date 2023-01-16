@@ -21,11 +21,10 @@ public class UserManagementDto {
     private String email;
     private String gender;
     private String biography;
-    private List<RoleDto> roles;
+    private List<String> roles;
     private List<PurchaseDto> purchases;
     private boolean enabled;
     private LocalDateTime joinDate;
-    private SellerPageDto sellerPage;
 }
 
 

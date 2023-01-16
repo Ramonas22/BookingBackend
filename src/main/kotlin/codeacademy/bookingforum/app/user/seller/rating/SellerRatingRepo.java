@@ -1,11 +1,11 @@
 package codeacademy.bookingforum.app.user.seller.rating;
 
-import codeacademy.bookingforum.app.user.auth.UserAuth;
-import codeacademy.bookingforum.app.user.seller.page.SellerPage;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+public interface SellerRatingRepo extends JpaRepository<SellerRating, Long> {
+    @Query(value = "select * from seller_rating where user_id = :userId AND page_id = :pageId LIMIT 1", nativeQuery = true)
+    SellerRating findByUserIdAndPageId(@Param("userId")Long userId, @Param("pageId")Long pageId);
 
-public interface SellerRatingRepo extends CrudRepository<SellerRating, Long> {
-    List<SellerRating> findByUserAndPage(UserAuth user, SellerPage page);
 }

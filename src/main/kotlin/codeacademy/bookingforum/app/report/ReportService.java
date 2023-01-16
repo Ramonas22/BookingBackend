@@ -2,6 +2,7 @@ package codeacademy.bookingforum.app.report;
 
 import codeacademy.bookingforum.app.configuration.ResponseObject;
 import codeacademy.bookingforum.app.ecxeption.global.UnsatisfiedExpectationException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class ReportService {
     @Autowired
     ReportRepository reportRepo;
 
+    @Transactional
     public ResponseObject report(ReportDto reportDto, WebRequest request) {
         if (validateReport(reportDto)) {
             reportRepo.save(reportMapper.fromDto(reportDto));

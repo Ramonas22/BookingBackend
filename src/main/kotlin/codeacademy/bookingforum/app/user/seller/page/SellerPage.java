@@ -36,9 +36,9 @@ public class SellerPage {
     List<Date> unavailableDates;
     @OneToOne(mappedBy = "sellerPage")
     UserAuth user;
-    @OneToMany(mappedBy = "page")
+    @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
     List<SellerRating> ratings;
-    @OneToMany(mappedBy = "sellerPage")
+    @OneToMany(mappedBy = "sellerPage", fetch = FetchType.EAGER)
     List<Purchase> purchases;
 
     public SellerPage(Long id) {

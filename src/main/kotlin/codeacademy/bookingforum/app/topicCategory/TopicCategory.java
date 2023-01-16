@@ -21,13 +21,13 @@ public class TopicCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "title")
+    @Column(name = "title", unique = true)
     private String title;
     @Column(name = "description")
     private String description;
     @Column(name = "roles")
     private List<String> roles;
-    @OneToMany(mappedBy = "section")
+    @OneToMany(mappedBy = "section", fetch = FetchType.EAGER)
     private List<Topic> topics;
 
     public TopicCategory(Long id) {

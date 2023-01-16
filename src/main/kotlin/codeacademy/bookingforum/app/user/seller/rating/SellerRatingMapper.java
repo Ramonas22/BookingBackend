@@ -4,6 +4,7 @@ import codeacademy.bookingforum.app.user.auth.UserAuth;
 import codeacademy.bookingforum.app.user.seller.page.SellerPage;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SellerRatingMapper {
         entity.setId(dto.getId());
         entity.setRating(dto.getRating());
         entity.setComment(dto.getComment());
-        entity.setDate(dto.getDate());
+        entity.setDate(LocalDateTime.now());
         entity.setUser(new UserAuth(dto.getUserId()));
         entity.setPage(new SellerPage(dto.getSellerPageId()));
 

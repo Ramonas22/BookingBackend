@@ -5,6 +5,7 @@ import codeacademy.bookingforum.app.topic.Topic;
 import codeacademy.bookingforum.app.user.auth.UserAuth;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +16,17 @@ public class PostMapper {
         if (entity == null) {
             return null;
         }
+        Long imageId = null;
+        if (entity.getImage() != null) {
+            imageId = entity.getImage().getId();
+        }
 
         return new PostDto(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getDatePosted(),
-                entity.getImage().getId(),
+                imageId,
                 entity.getUser().getId(),
                 entity.getTopic().getId()
                 );
@@ -39,6 +44,20 @@ public class PostMapper {
                 dto.getContent(),
                 dto.getDatePosted(),
                 new Image(dto.getImageId()),
+                new UserAuth(dto.getUserId()),
+                new Topic(dto.getTopicId()),
+                new ArrayList<>()
+        );
+    }
+    public Post fromNewDto(NewPostDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return new Post(
+                dto.getTitle(),
+                dto.getContent(),
+                LocalDateTime.now(),
                 new UserAuth(dto.getUserId()),
                 new Topic(dto.getTopicId())
         );
